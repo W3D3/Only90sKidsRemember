@@ -57,7 +57,6 @@ public class FurbyScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // activate movement
-        Debug.Log("Activate");
         MovementActivated = true;
     }
 }

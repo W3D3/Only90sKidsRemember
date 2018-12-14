@@ -5,16 +5,18 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour {
 
 	Player player;
+    GamepadInput gamepadInput;
 
 	void Start () {
 		player = GetComponent<Player> ();
+        gamepadInput = GetComponent<GamepadInput>();
 	}
 
 	void Update () {
-		Vector2 directionalInput = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
+		Vector2 directionalInput = new Vector2 (gamepadInput.LeftHorizontalValue(), 0);
 		player.SetDirectionalInput (directionalInput);
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (gamepadInput.Jump()) {
 			player.OnJumpInputDown ();
 		}
 		if (Input.GetKeyUp (KeyCode.Space)) {

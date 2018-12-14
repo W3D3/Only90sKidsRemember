@@ -36,6 +36,8 @@ namespace Assets.Scripts.Movement
         public bool ZeroGravity;
         public int Deaths;
 
+        public GamepadInput gamepadInput;
+
         void Start() {
             controller = GetComponent<Controller2D> ();
             //level = GetComponent<LevelInit>();
@@ -50,8 +52,10 @@ namespace Assets.Scripts.Movement
             Deaths = 0;
         }
 
+
+
         void Update() {
-            Vector2 input = new Vector2 (GamepadInput.HorizontalVal(), 0);
+            Vector2 input = new Vector2 (gamepadInput.LeftHorizontalValue(), 0);
             int wallDirX = (controller.collisions.left) ? -1 : 1;
 
             float targetVelocityX = input.x * moveSpeed;
@@ -103,7 +107,7 @@ namespace Assets.Scripts.Movement
                 canDash = true;
             }
        
-            if (GamepadInput.Jump()) {
+            if (gamepadInput.Jump()) {
                 if (wallSliding) {
                     velocity.x = -wallDirX * wallLeap.x;
                     velocity.y = wallLeap.y;
@@ -116,7 +120,7 @@ namespace Assets.Scripts.Movement
 			
             }
 
-            if (GamepadInput.Dash() && canDash && input.normalized.x != 0)
+            if (gamepadInput.Dash() && canDash && input.normalized.x != 0)
             {
                 //GameManager.instance.playDashSound();
                 velocity.x = input.normalized.x * dash;

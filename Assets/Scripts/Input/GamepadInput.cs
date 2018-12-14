@@ -4,128 +4,116 @@ using UnityEngine;
 
 public class GamepadInput : MonoBehaviour
 {
-    private static GamepadInput _instance;
+    public bool EnablePlayerControls;
 
-    private static bool EnablePlayerControls = true;
-    private static bool EnableColorControls = true;
+    /// <summary>
+    /// Mapped via <see cref="ControllerType"/>
+    /// </summary>
+    public int ControllerNumber;
 
-    private void Awake()
+    public enum ControllerType
     {
-        if (_instance == null)
-            _instance = this;
+        //Keyboard = 0,
+        Joystick1 = 1,
+        Joystick2 = 2,
+        Joystick3 = 3,
+        Joystick4 = 4
     }
+    
+    private const string LeftHorizontal = "LeftHorizontal";
+    private const string RightHorizontal = "RightHorizontal";
+    private const string RightVertical = "RightVertical";
 
     // Use this for initialization
     // ReSharper disable once Unity.RedundantEventFunction
     void Start()
     {
-        EnableColorControls = true;
-        EnablePlayerControls = true;
     }
 
     // Update is called once per frame
     // ReSharper disable once Unity.RedundantEventFunction
     void Update()
     {
-        //foreach (string s in Input.GetJoystickNames())
-        //    Debug.Log(s);
-
-        //int i = 0;
-        //while (i < 4)
-        //{
-        //    if (Mathf.Abs(Input.GetAxis("Joy" + (i+1) + "X")) > 0.2F || Mathf.Abs(Input.GetAxis("Joy" + (i + 1) + "Y")) > 0.2F)
-        //        Debug.Log(Input.GetJoystickNames()[i] + " is moved");
-
-        //    i++;
-        //}
-        
-    /*
-        if (Jump())
-            Debug.Log("jump pressed");
-
-        if (Dash())
-            Debug.Log("dash pressed");
-
-        if (Color1())
-            Debug.Log("left trigger pressed");
-
-        if (Color2())
-            Debug.Log("right trigger pressed");
-
-        if (ColorMixed())
-            Debug.Log("both trigger pressed");
-        */
-
     }
-
-    private const string Color1Button = "Color1";
-    private const string Color2Button = "Color2";
-    private const string Horizontal = "Horizontal";
-    private const string HorizontalSwitch = "HorizontalSwitch";
-    private const string PauseAxis = "Pause";
+    
     private const double Tolerance = .1;
 
     private static readonly string[] SwitchGamepadNames = { "Wireless Gamepad", "Unknown Pro Controller" };
-
-    private static bool IsNintendoSwitchProController(string controllerName)
-    {
-        return SwitchGamepadNames.Contains(controllerName);
-    }
     
-    public static float HorizontalVal()
+    /// <summary>
+    /// Returns the value from the left stick X axis.
+    /// </summary>
+    /// <returns></returns>
+    public float LeftHorizontalValue()
     {
-        var horVal = Input.GetAxis(Horizontal);
-
-        foreach (var controllerName in Input.GetJoystickNames())
-        {
-            var horValSwitch = Input.GetAxis(HorizontalSwitch);
-
-            if (!IsNintendoSwitchProController(controllerName) || Math.Abs(horValSwitch) < Tolerance) continue;
-            
-            horVal = horValSwitch;
-            break;
-        }
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(LeftHorizontal + t.ToString());
 
         return EnablePlayerControls ? horVal : 0;
     }
 
-
-    public static bool Jump()
+    /// <summary>
+    /// Returns the value from the right stick X axis.
+    /// </summary>
+    /// <returns></returns>
+    public float RightHorizontalValue()
     {
-        return EnableColorControls && (Input.GetKeyDown(KeyCode.Space) || // keyboard
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(RightHorizontal + t.ToString());
+
+        return EnablePlayerControls ? horVal : 0;
+    }
+
+    /// <summary>
+    /// Returns the value from the right stick Y axis.
+    /// </summary>
+    /// <returns></returns>
+    public float RightVerticalValue()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(RightVertical + t.ToString());
+
+        return EnablePlayerControls ? horVal : 0;
+    }
+
+    public bool Jump()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton0);
+
+        return  (Input.GetKeyDown(KeyCode.Space) || // keyboard
                                        Input.GetKeyDown(KeyCode.JoystickButton0) || // switch and xbox controller
                                        Input.GetKeyDown(KeyCode.JoystickButton16)); // macOS binding
     }
 
-    public static bool Dash()
+    public bool Dash()
     {
-        return EnableColorControls && (Input.GetKeyDown(KeyCode.LeftShift) || // keyboard
+        return  (Input.GetKeyDown(KeyCode.LeftShift) || // keyboard
                                        Input.GetKeyDown(KeyCode.JoystickButton2) || // switch and xbox controller
                                        Input.GetKeyDown(KeyCode.JoystickButton18)); // macOS binding
     }
 
-    public static bool Color1()
-    {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) > Tolerance &&
-               Input.GetAxis(Color2Button) < Tolerance;
-    }
+    //public bool Color1()
+    //{
+    //    return EnableColorControls &&
+    //           Input.GetAxis(Color1Button) > Tolerance &&
+    //           Input.GetAxis(Color2Button) < Tolerance;
+    //}
 
-    public static bool Color2()
-    {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) < Tolerance &&
-               Input.GetAxis(Color2Button) > Tolerance;
-    }
+    //public bool Color2()
+    //{
+    //    return EnableColorControls &&
+    //           Input.GetAxis(Color1Button) < Tolerance &&
+    //           Input.GetAxis(Color2Button) > Tolerance;
+    //}
 
-    public static bool ColorMixed()
-    {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) > Tolerance &&
-               Input.GetAxis(Color2Button) > Tolerance;
-    }
+    //public bool ColorMixed()
+    //{
+    //    return EnableColorControls &&
+    //           Input.GetAxis(Color1Button) > Tolerance &&
+    //           Input.GetAxis(Color2Button) > Tolerance;
+    //}
 
-    public static bool Pause()
+    public bool Pause()
     {
         return Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7);
     }

@@ -2,24 +2,27 @@
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Gamepad Input for Keyboard and Xbox Controller.
+/// </summary>
 public class GamepadInput : MonoBehaviour
 {
     public bool EnablePlayerControls;
 
     /// <summary>
-    /// Mapped via <see cref="ControllerType"/>
+    /// Mapped via <see cref="ControllerType"/>.
     /// </summary>
     public int ControllerNumber;
 
     public enum ControllerType
     {
-        //Keyboard = 0,
+        Keyboard = 0,
         Joystick1 = 1,
         Joystick2 = 2,
         Joystick3 = 3,
         Joystick4 = 4
     }
-    
+
     private const string LeftHorizontal = "LeftHorizontal";
     private const string RightHorizontal = "RightHorizontal";
     private const string RightVertical = "RightVertical";
@@ -35,16 +38,12 @@ public class GamepadInput : MonoBehaviour
     void Update()
     {
     }
-    
-    private const double Tolerance = .1;
 
-    private static readonly string[] SwitchGamepadNames = { "Wireless Gamepad", "Unknown Pro Controller" };
-    
     /// <summary>
     /// Returns the value from the left stick X axis.
     /// </summary>
     /// <returns></returns>
-    public float LeftHorizontalValue()
+    public float GetLeftHorizontalValue()
     {
         ControllerType t = (ControllerType)ControllerNumber;
         var horVal = Input.GetAxis(LeftHorizontal + t.ToString());
@@ -56,7 +55,7 @@ public class GamepadInput : MonoBehaviour
     /// Returns the value from the right stick X axis.
     /// </summary>
     /// <returns></returns>
-    public float RightHorizontalValue()
+    public float GetRightHorizontalValue()
     {
         ControllerType t = (ControllerType)ControllerNumber;
         var horVal = Input.GetAxis(RightHorizontal + t.ToString());
@@ -68,7 +67,7 @@ public class GamepadInput : MonoBehaviour
     /// Returns the value from the right stick Y axis.
     /// </summary>
     /// <returns></returns>
-    public float RightVerticalValue()
+    public float GetRightVerticalValue()
     {
         ControllerType t = (ControllerType)ControllerNumber;
         var horVal = Input.GetAxis(RightVertical + t.ToString());
@@ -76,43 +75,55 @@ public class GamepadInput : MonoBehaviour
         return EnablePlayerControls ? horVal : 0;
     }
 
-    public bool Jump()
+    private KeyCode GetJumpKeyCodeForController()
     {
-        return Input.GetKeyDown(KeyCode.JoystickButton0);
+        KeyCode code = KeyCode.Space;
+        switch ((ControllerType)ControllerNumber)
+        {
+            case ControllerType.Keyboard:
+                code = KeyCode.Space;
+                break;
+            case ControllerType.Joystick1:
+                code = KeyCode.Joystick1Button0;
+                break;
+            case ControllerType.Joystick2:
+                code = KeyCode.Joystick2Button0;
+                break;
+            case ControllerType.Joystick3:
+                code = KeyCode.Joystick3Button0;
+                break;
+            case ControllerType.Joystick4:
+                code = KeyCode.Joystick4Button0;
+                break;
+            default:
+                break;
+        }
 
-        return  (Input.GetKeyDown(KeyCode.Space) || // keyboard
-                                       Input.GetKeyDown(KeyCode.JoystickButton0) || // switch and xbox controller
-                                       Input.GetKeyDown(KeyCode.JoystickButton16)); // macOS binding
+        return code;
     }
 
-    public bool Dash()
+    /// <summary>
+    /// Returns true if the jump button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool JumpPressed()
     {
-        return  (Input.GetKeyDown(KeyCode.LeftShift) || // keyboard
-                                       Input.GetKeyDown(KeyCode.JoystickButton2) || // switch and xbox controller
-                                       Input.GetKeyDown(KeyCode.JoystickButton18)); // macOS binding
+        return Input.GetKeyDown(GetJumpKeyCodeForController());
     }
 
-    //public bool Color1()
-    //{
-    //    return EnableColorControls &&
-    //           Input.GetAxis(Color1Button) > Tolerance &&
-    //           Input.GetAxis(Color2Button) < Tolerance;
-    //}
+    /// <summary>
+    /// Returns true if the jump button was released.
+    /// </summary>
+    /// <returns></returns>
+    public bool JumpReleased()
+    {
+        return Input.GetKeyUp(GetJumpKeyCodeForController());
+    }
 
-    //public bool Color2()
-    //{
-    //    return EnableColorControls &&
-    //           Input.GetAxis(Color1Button) < Tolerance &&
-    //           Input.GetAxis(Color2Button) > Tolerance;
-    //}
-
-    //public bool ColorMixed()
-    //{
-    //    return EnableColorControls &&
-    //           Input.GetAxis(Color1Button) > Tolerance &&
-    //           Input.GetAxis(Color2Button) > Tolerance;
-    //}
-
+    /// <summary>
+    /// Pauses the game for all controllers.
+    /// </summary>
+    /// <returns></returns>
     public bool Pause()
     {
         return Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7);

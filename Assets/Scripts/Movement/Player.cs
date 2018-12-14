@@ -1,139 +1,129 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-namespace Assets.Scripts.Movement
-{
-    [RequireComponent (typeof (Controller2D))]
-    public class Player : MonoBehaviour {
+[RequireComponent (typeof (Controller2D))]
+public class Player : MonoBehaviour {
 
-        public float jumpHeight = 4;
-        public float moveSpeed = 10;
-        public float timeToJumpApex = .4f;
-        public float dash = 10;
-        float accelerationTimeAirborne = .2f;
-        float accelerationTimeGrounded = .1f;
+	public float maxJumpHeight = 4;
+	public float minJumpHeight = 1;
+	public float timeToJumpApex = .4f;
+	float accelerationTimeAirborne = .2f;
+	float accelerationTimeGrounded = .1f;
+	float moveSpeed = 6;
 
-        private int currentColor;
+	public Vector2 wallJumpClimb;
+	public Vector2 wallJumpOff;
+	public Vector2 wallLeap;
 
-        public Vector2 wallLeap;
-        
-        public float wallSlideSpeedMax = 3;
-        public float wallStickTime = .25f;
-        float timeToWallUnstick;
+	public float wallSlideSpeedMax = 3;
+	public float wallStickTime = .25f;
+	float timeToWallUnstick;
 
-        float gravity;
-        float jumpVelocity;
-        Vector3 velocity;
-        float velocityXSmoothing;
+	float gravity;
+	float maxJumpVelocity;
+	float minJumpVelocity;
+	Vector3 velocity;
+	float velocityXSmoothing;
 
-        Controller2D controller;
-        //private LevelInit level;
+	Controller2D controller;
 
-        private bool canDash;
+	Vector2 directionalInput;
+	bool wallSliding;
+	int wallDirX;
 
-        public Vector3 InitialPosition;
-        public bool InputEnabled;
-        public bool ZeroGravity;
-        public int Deaths;
+	void Start() {
+		controller = GetComponent<Controller2D> ();
 
-        public GamepadInput gamepadInput;
+		gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
+		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+		minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight);
+	}
 
-        void Start() {
-            controller = GetComponent<Controller2D> ();
-            //level = GetComponent<LevelInit>();
+	void Update() {
+		CalculateVelocity ();
+		HandleWallSliding ();
 
-            gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
-            jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+		controller.Move (velocity * Time.deltaTime, directionalInput);
 
-            canDash = true;
+		if (controller.collisions.above || controller.collisions.below) {
+			if (controller.collisions.slidingDownMaxSlope) {
+				velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
+			} else {
+				velocity.y = 0;
+			}
+		}
+	}
 
-            InitialPosition = transform.position;
-            ZeroGravity = false;
-            Deaths = 0;
-        }
+	public void SetDirectionalInput (Vector2 input) {
+		directionalInput = input;
+	}
 
+	public void OnJumpInputDown() {
+		if (wallSliding) {
+			if (wallDirX == directionalInput.x) {
+				velocity.x = -wallDirX * wallJumpClimb.x;
+				velocity.y = wallJumpClimb.y;
+			}
+			else if (directionalInput.x == 0) {
+				velocity.x = -wallDirX * wallJumpOff.x;
+				velocity.y = wallJumpOff.y;
+			}
+			else {
+				velocity.x = -wallDirX * wallLeap.x;
+				velocity.y = wallLeap.y;
+			}
+		}
+		if (controller.collisions.below) {
+			if (controller.collisions.slidingDownMaxSlope) {
+				if (directionalInput.x != -Mathf.Sign (controller.collisions.slopeNormal.x)) { // not jumping against max slope
+					velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
+					velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
+				}
+			} else {
+				velocity.y = maxJumpVelocity;
+			}
+		}
+	}
 
+	public void OnJumpInputUp() {
+		if (velocity.y > minJumpVelocity) {
+			velocity.y = minJumpVelocity;
+		}
+	}
+		
 
-        void Update() {
-            Vector2 input = new Vector2 (gamepadInput.LeftHorizontalValue(), 0);
-            int wallDirX = (controller.collisions.left) ? -1 : 1;
+	void HandleWallSliding() {
+		wallDirX = (controller.collisions.left) ? -1 : 1;
+		wallSliding = false;
+		if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0) {
+			wallSliding = true;
 
-            float targetVelocityX = input.x * moveSpeed;
-            if (ZeroGravity)
-            {
-                if (Mathf.Abs(velocity.x) < 0.0001f)
-                {
-                    velocity.x = Mathf.Abs(1 * Mathf.Sign(velocity.x)) < 0.0001f ? 1 : Mathf.Sign(velocity.x);
-                }
-            }
-            else
-            {
-                velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
-            }
+			if (velocity.y < -wallSlideSpeedMax) {
+				velocity.y = -wallSlideSpeedMax;
+			}
 
-            bool wallSliding = false;
-            
-            if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && !ZeroGravity) {
-                wallSliding = true;
+			if (timeToWallUnstick > 0) {
+				velocityXSmoothing = 0;
+				velocity.x = 0;
 
-                if (velocity.y < -wallSlideSpeedMax) {
-                    velocity.y = -wallSlideSpeedMax;
-                }
+				if (directionalInput.x != wallDirX && directionalInput.x != 0) {
+					timeToWallUnstick -= Time.deltaTime;
+				}
+				else {
+					timeToWallUnstick = wallStickTime;
+				}
+			}
+			else {
+				timeToWallUnstick = wallStickTime;
+			}
 
-                if (timeToWallUnstick > 0) {
-                    velocityXSmoothing = 0;
-                    velocity.x = 0;
+		}
 
-                    if (input.x != wallDirX && input.x != 0) {
-                        timeToWallUnstick -= Time.deltaTime;
-                    }
-                    else {
-                        timeToWallUnstick = wallStickTime;
-                    }
-                }
-                else {
-                    timeToWallUnstick = wallStickTime;
-                }
+	}
 
-            }
-
-            // todo check zero gravity
-            if ((controller.collisions.above || controller.collisions.below) /*&& !controller.collisions.zeroGravity*/) {
-                velocity.y = 0;
-            }
-
-            if (controller.collisions.below)
-            {
-                canDash = true;
-            }
-       
-            if (gamepadInput.Jump()) {
-                if (wallSliding) {
-                    velocity.x = -wallDirX * wallLeap.x;
-                    velocity.y = wallLeap.y;
-                }
-                if (controller.collisions.below) {
-                    //GameManager.instance.playJumpSound();
-                    velocity.y = jumpVelocity;
-                }
-
-			
-            }
-
-            if (gamepadInput.Dash() && canDash && input.normalized.x != 0)
-            {
-                //GameManager.instance.playDashSound();
-                velocity.x = input.normalized.x * dash;
-                velocity.y = 7; //very importante
-                canDash = false;
-            }
-        
-            if (!ZeroGravity)
-            {
-                velocity.y += gravity * Time.deltaTime;
-            }
-
-            controller.Move (velocity * Time.deltaTime, input);
-        }
-    }
+	void CalculateVelocity() {
+		float targetVelocityX = directionalInput.x * moveSpeed;
+		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
+		velocity.y += gravity * Time.deltaTime;
+	}
 }

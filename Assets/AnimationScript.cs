@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AnimationScript : MonoBehaviour
@@ -13,6 +14,8 @@ public class AnimationScript : MonoBehaviour
 
     private bool isfacingRight = false;
 
+    private SpriteRenderer[] renderers;
+
    
 
     // Start is called before the first frame update
@@ -22,13 +25,16 @@ public class AnimationScript : MonoBehaviour
         player = GetComponent<Player>();
         gamepadInput = GetComponent<GamepadInput>();
         controller = GetComponent<Controller2D>();
+        renderers = GetComponentsInChildren<SpriteRenderer>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        GetComponent<>()
+        Texture2D tex = new Texture2D(2, 2);
+      ;
+//      renderers[2].sprite.texture = Resources.Load<Texture2D>("capHead");
         Vector2 directonalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
 
         if (directonalInput.x > 0 && !isfacingRight)

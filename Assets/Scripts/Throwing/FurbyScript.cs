@@ -9,10 +9,13 @@ public class FurbyScript : ThrowableScript
     // set to 1 to face right
     public int FaceDirection = 1;
     public float Speed = 1.5f;
+
+    public RangeInt ExplosionRange;
             
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("Explode", Random.Range(ExplosionRange.start, ExplosionRange.end));
     }
 
     // Update is called once per frame
@@ -51,5 +54,10 @@ public class FurbyScript : ThrowableScript
     {
         // activate movement
         MovementActivated = true;
+    }
+
+    public void Explode()
+    {
+
     }
 }

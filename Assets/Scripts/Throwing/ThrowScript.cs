@@ -62,7 +62,7 @@ public class ThrowScript : MonoBehaviour
 
             var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
-            ThrowOffset = direction.normalized * 1f;
+            ThrowOffset = direction.normalized * 2f;
 
             var throwable = Instantiate(PrimaryWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;

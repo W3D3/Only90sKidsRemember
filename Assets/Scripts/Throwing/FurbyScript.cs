@@ -12,6 +12,8 @@ public class FurbyScript : ThrowableScript
 
     public int MinTime = 3;
     public int MaxTime = 7;
+
+    public Explosion explosionPrefab;
             
     // Start is called before the first frame update
     void Start()
@@ -60,7 +62,9 @@ public class FurbyScript : ThrowableScript
     public void Explode()
     {
         Debug.Log("Explode");
-        // todo instantiate explosion
+        explosionPrefab.transform.position = transform.position;
+        var explIntance = Instantiate(explosionPrefab);
+        Instantiate(explIntance);
         Destroy(gameObject);
     }
 }

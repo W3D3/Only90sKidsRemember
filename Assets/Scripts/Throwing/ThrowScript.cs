@@ -5,7 +5,7 @@ public class ThrowScript : MonoBehaviour
 {
     public bool CanCharge = true;
     public bool Charging;
-    
+
     public float Speed = 0.5f;
     public float SpeedSpecialWeapon = 0.5f;
 
@@ -66,7 +66,12 @@ public class ThrowScript : MonoBehaviour
             {
                 var collider2d = GetComponent<Collider2D>();
 
-                var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
+                // if the user isnt moving, shoot in the looking direction
+                var horiVal = input.GetRightHorizontalValue() != 0
+                    ? input.GetRightHorizontalValue()
+                    : Player.LookingRight ? 1 : -1;
+
+                var direction = new Vector2(horiVal, input.GetRightVerticalValue());
 
                 ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
 
@@ -87,11 +92,11 @@ public class ThrowScript : MonoBehaviour
             CanUseSpecialWeapon = false;
             ChargeSpecialWeapon = true;
         }
-        
+
         if (ChargeSpecialWeapon)
         {
             SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
-            
+
             if (SpeedSpecialWeapon > maxSpeed)
             {
                 ChargeSpecialWeapon = false;

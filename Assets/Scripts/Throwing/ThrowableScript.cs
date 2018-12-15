@@ -4,7 +4,13 @@ using UnityEngine;
 public class ThrowableScript : MonoBehaviour
 {
     public Rigidbody2D RigidBody;
+
     public SpriteRenderer SpriteRenderer;
+
+    /// <summary>
+    /// The stepsize to raise the speed if charged.
+    /// </summary>
+    public float SpeedStep;
 
     // Awake is called after instantiation.
     private void Awake()

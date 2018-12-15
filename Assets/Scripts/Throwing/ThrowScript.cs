@@ -43,10 +43,10 @@ public class ThrowScript : MonoBehaviour
             Charging = true;
             Speed = 0.5f;
         }
-        Debug.Log(Charging);
+
         if (Charging)
         {
-            Speed += Time.deltaTime * 10f;
+            Speed += Time.deltaTime * PrimaryWeapon.SpeedStep;
 
             if (Speed > MaxSpeed)
             {

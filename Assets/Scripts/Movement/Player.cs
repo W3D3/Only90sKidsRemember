@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
     public int JojoDragSpeed;
     	
 	//health and stuff
-	private int health = 1;
+	public int health = 1;
 
     void Start() {
 		controller = GetComponent<Controller2D> ();

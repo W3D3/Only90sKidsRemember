@@ -23,7 +23,7 @@ public class FurbyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var raycastDown = Physics2D.RaycastAll(transform.position, Vector2.down, renderer.bounds.size.y);
+        var raycastDown = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector3.down), renderer.bounds.size.y / 2f + 0.1f);
         
         if (raycastDown.Length > 1 && MovementActivated)
         {
@@ -33,13 +33,13 @@ public class FurbyScript : MonoBehaviour
         }
 
 
-        var raycastRight = Physics2D.RaycastAll(transform.position, Vector2.right, renderer.bounds.size.x);
+        var raycastRight = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector3.right), renderer.bounds.size.x / 2f + 0.1f);
         if (raycastRight.Length > 1)
         {
             FaceDirection = 0;
         }
 
-        var raycastLeft = Physics2D.RaycastAll(transform.position, Vector2.left, renderer.bounds.size.y);
+        var raycastLeft = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector3.left), renderer.bounds.size.y / 2f + 0.1f);
         if (raycastLeft.Length > 1)
         {
             FaceDirection = 1;
@@ -49,9 +49,9 @@ public class FurbyScript : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, new Vector3(0, -renderer.bounds.size.y, 0));
-        Gizmos.DrawRay(transform.position, new Vector3(-renderer.bounds.size.x, 0, 0));
-        Gizmos.DrawRay(transform.position, new Vector3(renderer.bounds.size.x, 0, 0));
+        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * (renderer.bounds.size.y / 2f + 0.1f));
+        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * (renderer.bounds.size.y / 2f + 0.1f));
+        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * (renderer.bounds.size.y / 2f + 0.1f));
     }
 
     void OnCollisionEnter2D(Collision2D collision)

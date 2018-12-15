@@ -19,7 +19,6 @@ public class PlayerInput : MonoBehaviour
     {
         Vector2 directionalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
         player.SetDirectionalInput(directionalInput);
-        _throwScript.SetDirectionalInput(gamepadInput);
 
         if (gamepadInput.IsJumpPressed())
         {

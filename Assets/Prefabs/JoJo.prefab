@@ -123,6 +123,7 @@ MonoBehaviour:
   MinTurnSpeed: 2
   SpeedStep: 1000
   MaxSpeed: 15
+  Thumbnail: {fileID: 21300000, guid: 1bf36870c8d93c34fbf2f886c39a862b, type: 3}
   LineColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!120 &7506475004011918855
 LineRenderer:

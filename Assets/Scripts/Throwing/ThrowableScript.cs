@@ -30,6 +30,8 @@ public class ThrowableScript : MonoBehaviour
     /// </summary>
     public float MaxSpeed;
 
+    public Sprite Thumbnail;
+
     // Awake is called after instantiation.
     private void Awake()
     {

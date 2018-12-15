@@ -104,7 +104,7 @@ MonoBehaviour:
   Thumbnail: {fileID: 21300000, guid: 0d91b73baa6d7694191d222f2eae1381, type: 3}
   MovementActivated: 0
   FaceDirection: 1
-  Speed: 1.5
+  Speed: 8
   MinTime: 3
   MaxTime: 7
   ExplosionPrefab: {fileID: 4267120187697728324, guid: ab6d378fec79a4420afcfc6cfc2a1159,

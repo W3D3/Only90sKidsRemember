@@ -34,18 +34,16 @@ public class ThrowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         if (input.IsRegularFirePressed() && CanCharge)
         {
             CanCharge = false;
             Charging = true;
             Speed = 0.5f;
         }
-        Debug.Log(Charging);
+
         if (Charging)
         {
-            Speed += Time.deltaTime * 10f;
+            Speed += Time.deltaTime * PrimaryWeapon.SpeedStep;
 
             if (Speed > MaxSpeed)
             {

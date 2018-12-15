@@ -28,6 +28,7 @@ public class ItemSpawnerScript : MonoBehaviour
             if (throwScript.SpecialWeapon == null)
             {
                 throwScript.SpecialWeapon = Create();
+                throwScript.CanUseSpecialWeapon = true;
             }
             gameObject.SetActive(false);
             Invoke("Reactivate", 1);

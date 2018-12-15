@@ -143,7 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  ItemSpawner: {fileID: 0}
-  SpeedStep: 0
+  SpeedStep: 20
   Thrower: {fileID: 0}
   Rigidbody2D: {fileID: 0}

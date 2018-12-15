@@ -70,6 +70,7 @@ public class ThrowScript : MonoBehaviour
             var throwable = Instantiate(PrimaryWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
             throwable.SetSpeed(direction, Speed);
+            Debug.Log(direction * Speed);
         }
 
         #region special weapon
@@ -85,7 +86,7 @@ public class ThrowScript : MonoBehaviour
 
         if (Charging)
         {
-            SpeedSpecialWeapon += Time.deltaTime * 10f;
+            SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
 
             if (SpeedSpecialWeapon > MaxSpeed)
             {

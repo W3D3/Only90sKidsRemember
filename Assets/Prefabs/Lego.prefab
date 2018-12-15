@@ -95,7 +95,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 0.20225
-  m_LinearDrag: 2
+  m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 6
   m_Material: {fileID: 0}
@@ -141,7 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cd6f9642074af4eac1c232c4170d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  RigidBody: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
+  SpeedStep: 20
   BrickColors:
   - serializedVersion: 2
     rgba: 4279766256

@@ -9,10 +9,14 @@ public class FurbyScript : ThrowableScript
     // set to 1 to face right
     public int FaceDirection = 1;
     public float Speed = 1.5f;
+
+    public int MinTime = 3;
+    public int MaxTime = 7;
             
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("Explode", Random.Range(MinTime, MaxTime));
     }
 
     // Update is called once per frame
@@ -51,5 +55,12 @@ public class FurbyScript : ThrowableScript
     {
         // activate movement
         MovementActivated = true;
+    }
+
+    public void Explode()
+    {
+        Debug.Log("Explode");
+        // todo instantiate explosion
+        Destroy(gameObject);
     }
 }

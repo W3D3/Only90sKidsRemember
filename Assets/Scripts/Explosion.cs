@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Explosion : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class Explosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var animation = this.GetComponent<Animator>();
+        animation.Play("Explosion_Anim");
         foreach (var affected in Physics2D.OverlapCircleAll(transform.position, radius))
         {
             var playerComponent = affected.GetComponent<Player>();
             if (playerComponent != null)
             {
-                playerComponent.Damage();
+                playerComponent.Damage(DamageType.Explosion);
             }
         }
     }
@@ -22,6 +25,6 @@ public class Explosion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Start();
+        //Start();
     }
 }

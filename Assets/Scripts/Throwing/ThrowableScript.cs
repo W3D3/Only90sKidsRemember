@@ -12,6 +12,8 @@ public class ThrowableScript : MonoBehaviour
     /// </summary>
     public float SpeedStep;
 
+    public Player Thrower;
+
     // Awake is called after instantiation.
     private void Awake()
     {

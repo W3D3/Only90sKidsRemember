@@ -16,6 +16,7 @@ public class ThrowScript : MonoBehaviour
     private Transform Position;
 
     public GamepadInput input;
+    public Player Player;
 
     public int PrimaryAmmo = 3;
 
@@ -32,6 +33,7 @@ public class ThrowScript : MonoBehaviour
         Speed = 1f;
         Position = GetComponent<Transform>();
         input = GetComponent<GamepadInput>();
+        Player = GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -108,6 +110,7 @@ public class ThrowScript : MonoBehaviour
 
             var throwable = Instantiate(SpecialWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
+            throwable.Thrower = Player;
             throwable.SetSpeed(direction, SpeedSpecialWeapon);
 
             SpecialWeapon = null;

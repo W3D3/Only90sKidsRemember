@@ -18,7 +18,8 @@ public class Player : MonoBehaviour {
 
 	public float wallSlideSpeedMax = 3;
 	public float wallStickTime = .25f;
-	float timeToWallUnstick;
+
+    float timeToWallUnstick;
 
 	float gravity;
 	float maxJumpVelocity;
@@ -31,11 +32,13 @@ public class Player : MonoBehaviour {
 	Vector2 directionalInput;
 	bool wallSliding;
 	int wallDirX;
-	
+
+    public int JojoDragSpeed;
+    	
 	//health and stuff
 	private int health = 1;
 
-	void Start() {
+    void Start() {
 		controller = GetComponent<Controller2D> ();
 
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
@@ -44,7 +47,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update() {
-		CalculateVelocity ();
+        
+        CalculateVelocity();
 		HandleWallSliding ();
 
 		controller.Move (velocity * Time.deltaTime, directionalInput);
@@ -84,11 +88,19 @@ public class Player : MonoBehaviour {
 			
 	}
 
-	public void SetDirectionalInput (Vector2 input) {
-		directionalInput = input;
-	}
+    public void SetDirectionalInput(Vector2 input)
+    {
+        directionalInput = input;
+    }
 
-	public void OnJumpInputDown() {
+    public void StartSpidermanMove(GameObject targetObject)
+    {
+        Vector3 vector = (targetObject.transform.position - transform.position).normalized;
+        var v = new Vector2(vector.x, vector.y) * JojoDragSpeed;
+        velocity = v;
+    }
+
+    public void OnJumpInputDown() {
 		if (wallSliding) {
 			if (wallDirX == directionalInput.x) {
 				velocity.x = -wallDirX * wallJumpClimb.x;
@@ -155,5 +167,5 @@ public class Player : MonoBehaviour {
 		float targetVelocityX = directionalInput.x * moveSpeed;
 		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
 		velocity.y += gravity * Time.deltaTime;
-	}
+    }
 }

@@ -43,7 +43,7 @@ public class ThrowScript : MonoBehaviour
         {
             CanCharge = false;
             Charging = true;
-            Speed = 0.5f;
+            Speed = 10f;
         }
 
         if (Charging)
@@ -72,10 +72,10 @@ public class ThrowScript : MonoBehaviour
 
                 ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
 
-                var throwable = Instantiate(PrimaryWeapon);
-                throwable.gameObject.transform.position = Position.position + ThrowOffset;
-                throwable.SetSpeed(direction, Speed);
-                Debug.Log(direction * Speed);
+            var throwable = Instantiate(PrimaryWeapon);
+            throwable.gameObject.transform.position = Position.position + ThrowOffset;
+            throwable.Thrower = Player;
+            throwable.SetSpeed(direction, Speed);
             }
         }
 

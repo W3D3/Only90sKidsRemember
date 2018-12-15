@@ -117,7 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  SpeedStep: 0
+  SpeedStep: 10
+  Thrower: {fileID: 0}
+  body: {fileID: 0}
 --- !u!61 &8566782281973210484
 BoxCollider2D:
   m_ObjectHideFlags: 0

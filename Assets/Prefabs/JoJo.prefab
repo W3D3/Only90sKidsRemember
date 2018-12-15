@@ -116,7 +116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90ef66a8e5674e42baa1a5046230c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  RigidBody: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
+  SpeedStep: 40
+  Thrower: {fileID: 0}
 --- !u!61 &8566782281973210484
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -156,3 +159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
+  SpeedStep: 0
+  Thrower: {fileID: 0}

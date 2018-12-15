@@ -83,9 +83,9 @@ public class ThrowScript : MonoBehaviour
 
         if (input.IsSpecialFirePressed() && CanUseSpecialWeapon)
         {
+            SpeedSpecialWeapon = 0.5f;
             CanUseSpecialWeapon = false;
             ChargeSpecialWeapon = true;
-            Speed = 0.5f;
         }
 
 
@@ -94,6 +94,7 @@ public class ThrowScript : MonoBehaviour
         {
             SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
 
+            //Debug.Log("sppeed: " + (Time.deltaTime * SpecialWeapon.SpeedStep));
             if (SpeedSpecialWeapon > MaxSpeed)
             {
                 ChargeSpecialWeapon = false;
@@ -103,11 +104,12 @@ public class ThrowScript : MonoBehaviour
 
         if (input.IsSpecialFireReleased())
         {
-            CanUseSpecialWeapon = true;
             ChargeSpecialWeapon = false;
+            CanUseSpecialWeapon = true;
 
             if (SpecialWeapon != null)
             {
+                CanUseSpecialWeapon = false;
                 var collider2d = GetComponent<Collider2D>();
 
                 var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());

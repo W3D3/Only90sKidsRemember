@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3630926435708593617}
   - component: {fileID: 3630926435708593622}
   m_Layer: 0
-  m_Name: furby 1
+  m_Name: Furby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  SpeedStep: 0
+  SpeedStep: 30
+  Thrower: {fileID: 0}
   MovementActivated: 0
   FaceDirection: 1
   Speed: 1.5

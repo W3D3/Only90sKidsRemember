@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAnimated
       objectReference: {fileID: 0}
+    - target: {fileID: 2960098624610474329, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+        type: 3}
+      propertyPath: ControllerNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+        type: 3}
+      propertyPath: PrimaryWeapon
+      value: 
+      objectReference: {fileID: 4128326498634065325, guid: 38987ac14d719424ba45fd07e799d138,
+        type: 3}
+    - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+        type: 3}
+      propertyPath: SpecialWeapon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2960098624610474327, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,18 +88,16 @@ PrefabInstance:
       propertyPath: JojoDragSpeed
       value: 80
       objectReference: {fileID: 0}
-    - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+    - target: {fileID: 2960098624610474320, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
-      propertyPath: PrimaryWeapon
-      value: 
-      objectReference: {fileID: 4128326498634065325, guid: 38987ac14d719424ba45fd07e799d138,
+      propertyPath: JojoDragSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960098624610474320, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
-    - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
-        type: 3}
-      propertyPath: SpecialWeapon
-      value: 
-      objectReference: {fileID: 1424297401180894935, guid: 26fc9326342ef334babc02ea3b05e028,
-        type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 964602846, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1338.321

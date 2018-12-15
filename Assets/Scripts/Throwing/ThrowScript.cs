@@ -42,7 +42,7 @@ public class ThrowScript : MonoBehaviour
 
     private void HandleShootPrimaryWeapon()
     {
-        if (input.IsRegularFirePressed() && !SpecialWeaponCharging && PrimaryAmmo > 0)
+        if (input.IsRegularFirePressed() && !PrimaryWeaponCharging && !SpecialWeaponCharging && PrimaryAmmo > 0)
         {
             PrimaryWeaponCharging = true;
             SpeedPrimaryWeapon = 10f;
@@ -54,7 +54,7 @@ public class ThrowScript : MonoBehaviour
             if (SpeedPrimaryWeapon != maxSpeed)
             {
                 SpeedPrimaryWeapon += Time.deltaTime * PrimaryWeapon.SpeedStep;
-
+                
                 // apply charging animation
                 var width = SpeedPrimaryWeapon / maxSpeed * 0.6f;
                 SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
@@ -105,7 +105,7 @@ public class ThrowScript : MonoBehaviour
 
     private void HandleShootSpecialWeapon()
     {
-        if (input.IsSpecialFirePressed() && !PrimaryWeaponCharging && SpecialWeapon != null)
+        if (input.IsSpecialFirePressed() && !SpecialWeaponCharging && !PrimaryWeaponCharging && SpecialWeapon != null)
         {
             SpecialWeaponCharging = true;
             SpeedSpecialWeapon = 0.5f;

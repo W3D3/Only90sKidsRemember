@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7466410471709993073}
   - component: {fileID: 6034147423044071710}
   m_Layer: 0
-  m_Name: ItemSpawner 1
+  m_Name: ItemSpawner
   m_TagString: ItemSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,6 +121,8 @@ MonoBehaviour:
   - {fileID: 88129102255526704, guid: 4ce4912ee18ad674eae72135d4413939, type: 3}
   - {fileID: 3630926435708593616, guid: 0dce555725f264fe88114f65cc900fd4, type: 3}
   - {fileID: 3630926435708593616, guid: 0dce555725f264fe88114f65cc900fd4, type: 3}
+  RespawnTime: 2
+  OverwriteOldWeapon: 1
 --- !u!61 &6034147423044071710
 BoxCollider2D:
   m_ObjectHideFlags: 0

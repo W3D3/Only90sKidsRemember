@@ -6,6 +6,15 @@ public class ItemSpawnerScript: MonoBehaviour
 {
     public List<ThrowableScript> Items;
 
+    /// <summary>
+    /// Time until the spawner respawns.
+    /// </summary>
+    public float RespawnTime;
+
+    /// <summary>
+    /// If true, an already collected special weapon is overwritten.
+    /// </summary>
+    public bool OverwriteOldWeapon;
     
     // Start is called before the first frame update
     void Start()
@@ -15,7 +24,6 @@ public class ItemSpawnerScript: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     void OnTriggerEnter2D(Collider2D c)
@@ -25,7 +33,7 @@ public class ItemSpawnerScript: MonoBehaviour
             var player = c.gameObject.GetComponent<Player>();
             var throwScript = player.GetComponent<ThrowScript>();
 
-            if (throwScript.SpecialWeapon == null)
+            if (throwScript.SpecialWeapon == null || OverwriteOldWeapon)
             {
                 var weapon = Create();
                 throwScript.SpecialWeapon = weapon;
@@ -35,20 +43,17 @@ public class ItemSpawnerScript: MonoBehaviour
                 childRenderer.sprite = weapon.Thumbnail;
                 childRenderer.size = new Vector2(0.1f, 0.1f);
             }
+
             gameObject.SetActive(false);
-            Invoke("Reactivate", 1);
+            Invoke("Reactivate", RespawnTime);
         }
     }
 
     public ThrowableScript Create()
     {
         var prefab = Items[Random.Range(0, Items.Count)];
-
-
-
         return prefab;
     }
-
 
     public void Reactivate()
     {

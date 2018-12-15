@@ -28,15 +28,5 @@ public class PlayerInput : MonoBehaviour
         {
             player.OnJumpInputUp();
         }
-        
-        if (gamepadInput.IsRegularFirePressed())
-            Debug.Log("fire pressed");
-        if(gamepadInput.IsRegularFireReleased())
-            Debug.Log("fire released");
-        if(gamepadInput.IsSpecialFirePressed())
-            Debug.Log("special pressed");
-        if (gamepadInput.IsSpecialFireReleased())
-            Debug.Log("special released");
-
     }
 }

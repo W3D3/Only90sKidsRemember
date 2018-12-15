@@ -179,36 +179,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3842437905497209565, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: JojoDragSpeed
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 6789991806207099462, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004866409938412968, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004866409938412968, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 5.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004866409938412968, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 5.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2004866409938412968, guid: 1a3e42407191b944eb68bb778c69431a,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3e42407191b944eb68bb778c69431a, type: 3}
 --- !u!1 &102312238 stripped

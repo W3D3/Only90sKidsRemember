@@ -311,6 +311,7 @@ MonoBehaviour:
   wallLeap: {x: 18, y: 17}
   wallSlideSpeedMax: 3
   wallStickTime: 0.25
+  animator: {fileID: 0}
   LookingRight: 0
   JojoDragSpeed: 80
   Name: 
@@ -354,19 +355,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c8e600106b8954cb1a57684f5d2969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanCharge: 1
-  ChargeNormalWeapon: 0
-  Speed: 0.5
+  PrimaryWeaponCharging: 0
+  SpeedPrimaryWeapon: 0.5
   SpeedSpecialWeapon: 0.5
   ActiveKeyCode: 97
-  ThrowOffset: {x: 0, y: 0, z: 0}
   input: {fileID: 0}
   Player: {fileID: 0}
-  PrimaryAmmo: 30
-  CanUseSpecialWeapon: 1
-  ChargeSpecialWeapon: 0
+  PrimaryAmmo: 3
+  SpecialWeaponCharging: 0
   PrimaryWeapon: {fileID: 4128326498634065325, guid: 38987ac14d719424ba45fd07e799d138,
     type: 3}
-  SpecialWeapon: {fileID: 3317387678664019698, guid: b7190fc91c59fda4b80808eb04d725ca,
+  SpecialWeapon: {fileID: 1424297401180894935, guid: 26fc9326342ef334babc02ea3b05e028,
     type: 3}
+  animator: {fileID: 0}
   SpriteCharge: {fileID: 0}

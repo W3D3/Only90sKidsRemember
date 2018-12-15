@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class waterkill : MonoBehaviour
+public class fallingDeath : MonoBehaviour
+{ 
+
+    [SerializeField] 
+    private Tilemap tilemap2;
+
+private Tilemap tilemap;
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        tilemap = tilemap2;
     }
 
     // Update is called once per frame
@@ -18,13 +25,13 @@ public class waterkill : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D collision)
-  
+
     {
-       if( collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().Damage(DamageType.Fire);
-          
-           
+            
+
+
 
         }
     }

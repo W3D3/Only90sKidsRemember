@@ -10,9 +10,11 @@ public class Explosion : MonoBehaviour
     void Start()
     {
         var animation = this.GetComponent<Animator>();
-        animation.Play("Explosion_Anim");
+        Invoke("Remove", .5f);
+        //animation.Play("Explosion_Anim");
         foreach (var affected in Physics2D.OverlapCircleAll(transform.position, radius))
         {
+            Debug.Log(affected);
             var playerComponent = affected.GetComponent<Player>();
             if (playerComponent != null)
             {
@@ -23,8 +25,9 @@ public class Explosion : MonoBehaviour
 
     
     // Update is called once per frame
-    void Update()
+    void Remove()
     {
-        //Start();
+        Debug.Log("Explosion done");
+        Destroy(gameObject);
     }
 }

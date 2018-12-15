@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class GamepadInput : MonoBehaviour
 {
+    /// <summary>
+    /// If false, all input is suppressed.
+    /// </summary>
     public bool EnablePlayerControls;
 
     /// <summary>
@@ -81,31 +84,31 @@ public class GamepadInput : MonoBehaviour
         return EnablePlayerControls ? horVal : 0;
     }
 
-    private KeyCode GetJumpKeyCodeForController()
+    private KeyCode JumpKeyCode
     {
-        KeyCode code = KeyCode.Space;
-        switch ((ControllerType)ControllerNumber)
+        get
         {
-            case ControllerType.Keyboard:
-                code = KeyCode.Space;
-                break;
-            case ControllerType.Joystick1:
-                code = KeyCode.Joystick1Button0;
-                break;
-            case ControllerType.Joystick2:
-                code = KeyCode.Joystick2Button0;
-                break;
-            case ControllerType.Joystick3:
-                code = KeyCode.Joystick3Button0;
-                break;
-            case ControllerType.Joystick4:
-                code = KeyCode.Joystick4Button0;
-                break;
-            default:
-                break;
-        }
+            KeyCode code = KeyCode.Space;
+            switch ((ControllerType)ControllerNumber)
+            {
+                case ControllerType.Joystick1:
+                    code = KeyCode.Joystick1Button0;
+                    break;
+                case ControllerType.Joystick2:
+                    code = KeyCode.Joystick2Button0;
+                    break;
+                case ControllerType.Joystick3:
+                    code = KeyCode.Joystick3Button0;
+                    break;
+                case ControllerType.Joystick4:
+                    code = KeyCode.Joystick4Button0;
+                    break;
+                default:
+                    break;
+            }
 
-        return code;
+            return code;
+        }
     }
 
     /// <summary>
@@ -114,7 +117,7 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsJumpPressed()
     {
-        return Input.GetKeyDown(GetJumpKeyCodeForController());
+        return EnablePlayerControls && Input.GetKeyDown(JumpKeyCode);
     }
 
     /// <summary>
@@ -123,16 +126,43 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsJumpReleased()
     {
-        return Input.GetKeyUp(GetJumpKeyCodeForController());
+        return EnablePlayerControls && Input.GetKeyUp(JumpKeyCode);
+    }
+
+    private KeyCode PauseKeyCode
+    {
+        get
+        {
+            KeyCode code = KeyCode.Escape;
+            switch ((ControllerType)ControllerNumber)
+            {
+                case ControllerType.Joystick1:
+                    code = KeyCode.Joystick1Button7;
+                    break;
+                case ControllerType.Joystick2:
+                    code = KeyCode.Joystick2Button7;
+                    break;
+                case ControllerType.Joystick3:
+                    code = KeyCode.Joystick3Button7;
+                    break;
+                case ControllerType.Joystick4:
+                    code = KeyCode.Joystick4Button7;
+                    break;
+                default:
+                    break;
+            }
+
+            return code;
+        }
     }
 
     /// <summary>
     /// Pauses the game for all controllers.
     /// </summary>
     /// <returns></returns>
-    public bool Pause()
+    public bool IsPausePressed()
     {
-        return Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7);
+        return EnablePlayerControls && Input.GetKeyUp(PauseKeyCode);
     }
 
     private bool regularFirePressed = false;
@@ -142,6 +172,9 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsRegularFirePressed()
     {
+        if (!EnablePlayerControls)
+            return false;
+
         ControllerType t = (ControllerType)ControllerNumber;
         float pressedDepth = Input.GetAxis(Shoot + t.ToString());
 
@@ -159,6 +192,9 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsRegularFireReleased()
     {
+        if (!EnablePlayerControls)
+            return false;
+
         ControllerType t = (ControllerType)ControllerNumber;
         float pressedDepth = Input.GetAxis(Shoot + t.ToString());
 
@@ -177,6 +213,9 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsSpecialFirePressed()
     {
+        if (!EnablePlayerControls)
+            return false;
+
         ControllerType t = (ControllerType)ControllerNumber;
         float pressedDepth = Input.GetAxis(Shoot + t.ToString());
 
@@ -194,6 +233,9 @@ public class GamepadInput : MonoBehaviour
     /// <returns></returns>
     public bool IsSpecialFireReleased()
     {
+        if (!EnablePlayerControls)
+            return false;
+
         ControllerType t = (ControllerType)ControllerNumber;
         float pressedDepth = Input.GetAxis(Shoot + t.ToString());
 

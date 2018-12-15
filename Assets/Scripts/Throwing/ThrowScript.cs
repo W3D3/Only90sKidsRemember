@@ -7,6 +7,8 @@ public class ThrowScript : MonoBehaviour
     public float Speed = 0.5f;
     public KeyCode ActiveKeyCode;
 
+    public Vector3 ThrowOffset;
+    public Player Player;
     public ThrowableScript ThrowablePrefab;
 
 
@@ -41,8 +43,15 @@ public class ThrowScript : MonoBehaviour
             // todo: determine item
 
             var throwable = Instantiate(ThrowablePrefab);
-            throwable.gameObject.transform.position = transform.position;
+            throwable.gameObject.transform.position = Player.transform.position + ThrowOffset;
             throwable.InstantiateSpeed(Speed);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        var center = Player.transform.position + ThrowOffset;
+        Gizmos.DrawLine(center - Vector3.down, center + Vector3.up);
+        Gizmos.DrawLine(center - Vector3.right, center + Vector3.left);
     }
 }

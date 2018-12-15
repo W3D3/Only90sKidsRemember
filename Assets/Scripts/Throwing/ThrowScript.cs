@@ -4,13 +4,12 @@ using UnityEngine;
 public class ThrowScript : MonoBehaviour
 {
     public bool CanCharge = true;
-    public bool Charging;
-    
+    public bool ChargeNormalWeapon;
+
     public float Speed = 0.5f;
     public float SpeedSpecialWeapon = 0.5f;
 
     public KeyCode ActiveKeyCode;
-    public float MaxSpeed = 30f;
 
     public Vector3 ThrowOffset;
     private Transform Position;
@@ -28,6 +27,8 @@ public class ThrowScript : MonoBehaviour
 
     public Animator animator;
 
+    public SpriteRenderer SpriteCharge;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -36,41 +37,51 @@ public class ThrowScript : MonoBehaviour
         input = GetComponent<GamepadInput>();
         Player = GetComponent<Player>();
         animator = GetComponent<Animator>();
+
+        SpriteCharge = GetComponentsInChildren<SpriteRenderer>()[1];
+        SpriteCharge.size = new Vector2(0, SpriteCharge.size.y);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HandleShootPrimaryWeapon()
     {
-        if (input.IsRegularFirePressed())
+        var maxSpeed = PrimaryWeapon.MaxSpeed;
+
+        if (input.IsRegularFirePressed() && CanCharge && !ChargeSpecialWeapon)
         {
             CanCharge = false;
-            Charging = true;
+            ChargeNormalWeapon = true;
             Speed = 10f;
         }
 
-        if (Charging)
+        if (ChargeNormalWeapon)
         {
             Speed += Time.deltaTime * PrimaryWeapon.SpeedStep;
-
-            if (Speed > MaxSpeed)
+            
+            var width = Speed / maxSpeed * 0.6f;
+            SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
+            if (Speed > maxSpeed)
             {
-                Charging = false;
-                Speed = MaxSpeed;
+                ChargeNormalWeapon = false;
+                Speed = maxSpeed;
             }
         }
 
         if (input.IsRegularFireReleased())
         {
-            Charging = false;
+            ChargeNormalWeapon = false;
             PrimaryAmmo--;
             CanCharge = PrimaryAmmo > 0;
-           
+
             if (PrimaryAmmo > 0)
             {
-
                 var collider2d = GetComponent<Collider2D>();
 
-                var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
+                // if the user isnt moving, shoot in the looking direction
+                var horiVal = input.GetRightHorizontalValue() != 0
+                    ? input.GetRightHorizontalValue()
+                    : Player.LookingRight ? 1 : -1;
+
+                var direction = new Vector2(horiVal, input.GetRightVerticalValue());
 
                 ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
             var throwable = Instantiate(PrimaryWeapon);
@@ -80,27 +91,30 @@ public class ThrowScript : MonoBehaviour
             animator.Play("throw");
             }
         }
+    }
 
-        #region special weapon
-
-        if (input.IsSpecialFirePressed() && CanUseSpecialWeapon)
+    private void HandleShootSpecialWeapon()
+    {
+        if (input.IsSpecialFirePressed() && CanUseSpecialWeapon && !ChargeNormalWeapon)
         {
             SpeedSpecialWeapon = 0.5f;
             CanUseSpecialWeapon = false;
             ChargeSpecialWeapon = true;
         }
 
-
-
         if (ChargeSpecialWeapon)
         {
-            SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
-
-            //Debug.Log("sppeed: " + (Time.deltaTime * SpecialWeapon.SpeedStep));
-            if (SpeedSpecialWeapon > MaxSpeed)
+            if (SpecialWeapon != null)
             {
-                ChargeSpecialWeapon = false;
-                SpeedSpecialWeapon = MaxSpeed;
+                SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
+                var width = SpeedSpecialWeapon / SpecialWeapon.MaxSpeed * 0.6f;
+                SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
+
+                if (SpeedSpecialWeapon > SpecialWeapon.MaxSpeed)
+                {
+                    ChargeSpecialWeapon = false;
+                    SpeedSpecialWeapon = SpecialWeapon.MaxSpeed;
+                }
             }
         }
 
@@ -108,6 +122,8 @@ public class ThrowScript : MonoBehaviour
         {
             ChargeSpecialWeapon = false;
             CanUseSpecialWeapon = true;
+
+            SpriteCharge.size = new Vector2(0, SpriteCharge.size.y);
 
             if (SpecialWeapon != null)
             {
@@ -123,16 +139,18 @@ public class ThrowScript : MonoBehaviour
                 throwable.Thrower = Player;
                 throwable.SetSpeed(direction, SpeedSpecialWeapon);
 
+                Player.GetComponentInChildren<SpriteRenderer>().sprite = null;
+
                 SpecialWeapon = null;
             }
         }
+    }
 
-        #endregion
+    // Update is called once per frame
+    void Update()
+    {
+        HandleShootPrimaryWeapon();
 
-        void OnDrawGizmos()
-        {
-            Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y + 2f));
-
-        }
+        HandleShootSpecialWeapon();
     }
 }

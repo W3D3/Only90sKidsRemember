@@ -36,10 +36,23 @@ public class Player : MonoBehaviour {
 
 	private bool death = false;
 
+    /// <summary>
+    /// True if the looking direction is right.
+    /// </summary>
+    public bool LookingRight;
+
+    /// <summary>
+    /// The speed to move towards the jojo.
+    /// </summary>
     public int JojoDragSpeed;
+
+    /// <summary>
+    /// The player name.
+    /// </summary>
+    public string Name;
     	
 	//health and stuff
-	private int health = 2;
+	private int health = 1;
 
     void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -56,6 +69,9 @@ public class Player : MonoBehaviour {
 		HandleWallSliding ();
 
 		controller.Move (velocity * Time.deltaTime, directionalInput);
+
+        if (velocity.x != 0)
+            LookingRight = velocity.x > 0 ? true : false;
 
 		if (controller.collisions.above || controller.collisions.below) {
 			if (controller.collisions.slidingDownMaxSlope) {
@@ -179,3 +195,5 @@ public class Player : MonoBehaviour {
 		velocity.y += gravity * Time.deltaTime;
     }
 }
+
+	public int health = 1;

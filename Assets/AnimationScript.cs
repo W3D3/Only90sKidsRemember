@@ -32,9 +32,8 @@ public class AnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Texture2D tex = new Texture2D(2, 2);
-      ;
-//      renderers[2].sprite.texture = Resources.Load<Texture2D>("capHead");
+        //renderers[2].sprite = Resources.Load("capHead",typeof(Sprite)) as Sprite;
+        
         Vector2 directonalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
 
         if (directonalInput.x > 0 && !isfacingRight)

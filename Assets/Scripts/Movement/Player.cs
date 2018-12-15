@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
     public int JojoDragSpeed;
     	
 	//health and stuff
-	private int health = 1;
+	private int health = 2;
 
     void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -84,7 +84,11 @@ public class Player : MonoBehaviour {
 			default:
 				throw new ArgumentOutOfRangeException(nameof(type), type, null);
 		}
-
+        if(health <= 1)
+        {
+            GetComponentsInChildren<SpriteRenderer>()[2].enabled = true;
+            GetComponentsInChildren<SpriteRenderer>()[3].enabled = false;
+        }
 		if(health <= 0 && !death)
 		{
 			animator.Play("death");

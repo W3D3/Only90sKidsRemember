@@ -1104,12 +1104,12 @@ PrefabInstance:
     - target: {fileID: 2960098624610474329, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
       propertyPath: ControllerNumber
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2960098624610474329, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
       propertyPath: ShootingButtonThreshold
-      value: 0.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
@@ -1253,7 +1253,7 @@ Animation:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805701908}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: 83af0a105f7b3a14fbc29e138c8cd1c0, type: 2}
   m_Animations: []

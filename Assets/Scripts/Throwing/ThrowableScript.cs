@@ -34,5 +34,9 @@ public class ThrowableScript : MonoBehaviour
         RigidBody.velocity = direction * speed;
     }
 
-    protected Bounds SpriteBounds { get { return SpriteRenderer.bounds; } }
+    protected Bounds SpriteBounds
+    {
+        get { return SpriteRenderer.bounds; }
+        set { }
+    }
 }

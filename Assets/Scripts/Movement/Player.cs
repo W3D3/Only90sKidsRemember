@@ -100,16 +100,20 @@ public class Player : MonoBehaviour {
 			default:
 				throw new ArgumentOutOfRangeException(nameof(type), type, null);
 		}
-        if(health <= 1)
+
+	    var components = GetComponentsInChildren<SpriteRenderer>();
+        if (health <= 1)
         {
-            GetComponentsInChildren<SpriteRenderer>()[2].enabled = true;
-            GetComponentsInChildren<SpriteRenderer>()[3].enabled = false;
+            components[2].enabled = true;
+            components[3].enabled = false;
         }
 		if(health <= 0 && !death)
 		{
 			animator.Play("death");
 			GetComponent<GamepadInput>().EnablePlayerControls = false;
-			death = true;
+            components[components.Length - 1].sprite = null;
+		    components[components.Length - 2].sprite = null;
+            death = true;
 		} 
 			
 	}

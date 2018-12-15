@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2960098624610474320, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+        type: 3}
+      propertyPath: JojoDragSpeed
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 2960098624610474329, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
       propertyPath: ControllerNumber

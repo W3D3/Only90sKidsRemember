@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ThrowScript : MonoBehaviour
 {
@@ -6,53 +7,69 @@ public class ThrowScript : MonoBehaviour
     public bool Charging;
     public float Speed = 0.5f;
     public KeyCode ActiveKeyCode;
+    public float MaxSpeed = 30f;
 
     public Vector3 ThrowOffset;
-    private Player Player;
-    public ThrowableScript ThrowablePrefab;
+    private Transform Position;
 
+    public GamepadInput input;
+
+    public int PrimaryAmmo = 3;
+    public ThrowableScript SpecialWeapon;
+
+
+    public ThrowableScript PrimaryWeapon;
+    public List<ThrowableScript> SpecialCandidates;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         Speed = 1f;
-        Player = GetComponent<Player>();
+        Position = GetComponent<Transform>();
+        SpecialCandidates = new List<ThrowableScript>();
+        input = GetComponent<GamepadInput>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(ActiveKeyCode) && CanCharge)
+
+
+        if (input.IsRegularFirePressed() && CanCharge)
         {
             CanCharge = false;
             Charging = true;
             Speed = 0.5f;
         }
-
+        Debug.Log(Charging);
         if (Charging)
         {
-            // todo: add velocity
-            Speed += Time.deltaTime * 20f;
+            Speed += Time.deltaTime * 10f;
+
+            if (Speed > MaxSpeed)
+            {
+                Charging = false;
+                Speed = MaxSpeed;
+            }
         }
 
-        if (Input.GetKeyUp(ActiveKeyCode))
+        if (input.IsRegularFireReleased() && PrimaryAmmo > 0)
         {
-            CanCharge = true;
             Charging = false;
+            PrimaryAmmo--;
+            CanCharge = PrimaryAmmo > 0;
 
-            // todo: check if the player can throw item
-            // todo: determine item
+            var collider2d = GetComponent<Collider2D>();
+            
+            var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
-            var throwable = Instantiate(ThrowablePrefab);
-            throwable.gameObject.transform.position = Player.transform.position + ThrowOffset;
-            throwable.InstantiateSpeed(Speed);
+            ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
+
+            var throwable = Instantiate(PrimaryWeapon);
+            throwable.gameObject.transform.position = Position.position + ThrowOffset;
+            throwable.InstantiateSpeed(direction, Speed);
+
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        var center = Player.transform.position + ThrowOffset;
-        Gizmos.DrawLine(center - Vector3.down, center + Vector3.up);
-        Gizmos.DrawLine(center - Vector3.right, center + Vector3.left);
     }
 }

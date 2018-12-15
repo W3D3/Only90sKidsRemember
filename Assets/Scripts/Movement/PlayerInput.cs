@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Player))]
 public class PlayerInput : MonoBehaviour
 {
-
+    private ThrowScript _throwScript;
     Player player;
     GamepadInput gamepadInput;
 
@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     {
         player = GetComponent<Player>();
         gamepadInput = GetComponent<GamepadInput>();
+        _throwScript = GetComponent<ThrowScript>();
     }
 
     void Update()
@@ -27,7 +28,7 @@ public class PlayerInput : MonoBehaviour
         {
             player.OnJumpInputUp();
         }
-
+        
         if (gamepadInput.IsRegularFirePressed())
             Debug.Log("fire pressed");
         if(gamepadInput.IsRegularFireReleased())

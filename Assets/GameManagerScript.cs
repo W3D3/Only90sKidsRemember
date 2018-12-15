@@ -27,6 +27,11 @@ public class GameManagerScript : MonoBehaviour
 
     public Vector3 growScale;
 
+    public GameObject Winner1;
+    public GameObject Winner2;
+    public GameObject Winner3;
+    public GameObject Winner4;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +48,9 @@ public class GameManagerScript : MonoBehaviour
         Image2.transform.localScale = Vector3.zero;
         Image1.transform.localScale = Vector3.zero;
         Fight.transform.localScale = Vector3.zero;
+
+        GameOverScreen.SetActive(false);
+        PreStartScreen.SetActive(true);
     }
 
     // Update is called once per frame
@@ -54,13 +62,32 @@ public class GameManagerScript : MonoBehaviour
             GameOver = true;
 
             // only 1 player alive
-            Time.timeScale = 0f;
             GameOverScreen.SetActive(true);
+            var winner = AllPlayers.First(x => x.health > 0);
 
-            PlayerWonText.text = "Player XXX Won";
+            Winner1.SetActive(false);
+            Winner2.SetActive(false);
+            Winner3.SetActive(false);
+            Winner4.SetActive(false);
+
+            switch (winner.Name)
+            {
+                case "Player1":
+                    Winner1.SetActive(true);
+                    break;
+                case "Player2":
+                    Winner2.SetActive(true);
+                    break;
+                case "Player3":
+                    Winner3.SetActive(true);
+                    break;
+                case "Player4":
+                    Winner4.SetActive(true);
+                    break;
+            }
         }
 
-        if (input.IsJumpPressed() && GameOver)
+        if (AllPlayers.Any(x => x.GetComponent<GamepadInput>().IsJumpPressed()) && GameOver)
         {
             RestartLevel();
         }
@@ -108,7 +135,7 @@ public class GameManagerScript : MonoBehaviour
 
         foreach (var allPlayer in AllPlayers)
         {
-            allPlayer.GetComponent<GamepadInput>().EnablePlayerControls = false;
+            allPlayer.GetComponent<GamepadInput>().EnablePlayerControls = true;
         }
     }
 }

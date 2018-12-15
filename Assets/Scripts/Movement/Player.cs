@@ -99,7 +99,8 @@ public class Player : MonoBehaviour {
 
 		if(health <= 0)
 		{
-			Destroy(gameObject);
+		    GetComponent<GamepadInput>().EnablePlayerControls = false;
+            // todo play animation
 		} 
 			
 	}

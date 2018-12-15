@@ -16,10 +16,9 @@ public class ThrowableScript : MonoBehaviour
     {
     }
 
-    public void InstantiateSpeed(float speed)
+    public void InstantiateSpeed(Vector2 direction, float speed)
     {
-        var gravity = Math.Abs(Physics2D.gravity.y);
         var rBody = GetComponent<Rigidbody2D>();
-        rBody.velocity = new Vector2(speed, speed);
+        rBody.velocity = direction * speed;
     }
 }

@@ -129,5 +129,5 @@ public class ThrowScript : MonoBehaviour
         HandleShootPrimaryWeapon();
 
         HandleShootSpecialWeapon();
-            }
+    }
 }

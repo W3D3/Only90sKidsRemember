@@ -46,6 +46,5 @@ public class ThrowableScript : MonoBehaviour
     protected Bounds SpriteBounds
     {
         get { return SpriteRenderer.bounds; }
-        set { }
     }
 }

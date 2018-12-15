@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof (Controller2D))]
@@ -30,6 +31,9 @@ public class Player : MonoBehaviour {
 	Vector2 directionalInput;
 	bool wallSliding;
 	int wallDirX;
+	
+	//health and stuff
+	private int health = 1;
 
 	void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -52,6 +56,32 @@ public class Player : MonoBehaviour {
 				velocity.y = 0;
 			}
 		}
+	}
+
+	public void Damage(DamageType type)
+	{
+		switch (type)
+		{
+			case DamageType.Generic:
+				health--;
+				break;
+			case DamageType.Explosion:
+				//TODO play animation
+				health--;
+				break;
+			case DamageType.Fire:
+				//TODO play animation
+				health--;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(type), type, null);
+		}
+
+		if(health <= 0)
+		{
+			Destroy(gameObject);
+		} 
+			
 	}
 
 	public void SetDirectionalInput (Vector2 input) {

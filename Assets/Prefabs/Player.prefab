@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnablePlayerControls: 1
   ControllerNumber: 0
+  ShootingButtonThreshold: 0
 --- !u!114 &2960098624610474328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,5 +194,6 @@ MonoBehaviour:
   Charging: 0
   Speed: 0.5
   ActiveKeyCode: 38
+  ThrowOffset: {x: 0, y: 0, z: 0}
   ThrowablePrefab: {fileID: 3317387678664019698, guid: 140677b73d9cec44ab5ff205b68dc5ce,
     type: 3}

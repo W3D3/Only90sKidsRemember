@@ -2,26 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JoJoScript : MonoBehaviour
+public class JoJoScript : ThrowableScript
 {
-
-    public Rigidbody2D RigidBody;
 
     // Start is called before the first frame update
     void Start()
     {
-        RigidBody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // activate movement
+        // collided with wall
         RigidBody.velocity = Vector2.zero;
+
+        Thrower.transform.position = transform.position;
     }
 }

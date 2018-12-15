@@ -8,7 +8,7 @@ public class ThrowScript : MonoBehaviour
     public KeyCode ActiveKeyCode;
 
     public Vector3 ThrowOffset;
-    public Player Player;
+    private Player Player;
     public ThrowableScript ThrowablePrefab;
 
 
@@ -16,6 +16,7 @@ public class ThrowScript : MonoBehaviour
     void Start()
     {
         Speed = 1f;
+        Player = GetComponent<Player>();
     }
 
     // Update is called once per frame

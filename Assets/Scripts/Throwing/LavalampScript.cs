@@ -10,7 +10,7 @@ public class LavalampScript : ThrowableScript
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
-        Rigidbody2D.AddTorque(-2f);
+        Rigidbody2D.AddTorque(-20f);
     }
 
     // Update is called once per frame

@@ -43,13 +43,9 @@ public class ThrowScript : MonoBehaviour
     {
         if (input.IsRegularFirePressed())
         {
-            if (CanCharge)
-            {
-                CanCharge = false;
-                Charging = true;
-                Speed = 0.5f;
-            }
-            
+            CanCharge = false;
+            Charging = true;
+            Speed = 10f;
         }
 
         if (Charging)
@@ -77,12 +73,11 @@ public class ThrowScript : MonoBehaviour
                 var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
                 ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
-                animator.SetInteger("State",2);
-                var throwable = Instantiate(PrimaryWeapon);
-                throwable.gameObject.transform.position = Position.position + ThrowOffset;
-                throwable.SetSpeed(direction, Speed);
-                Debug.Log(direction * Speed);
-                
+            var throwable = Instantiate(PrimaryWeapon);
+            throwable.gameObject.transform.position = Position.position + ThrowOffset;
+            throwable.Thrower = Player;
+            throwable.SetSpeed(direction, Speed);
+            animator.SetInteger("State",2);
             }
         }
 
@@ -133,5 +128,11 @@ public class ThrowScript : MonoBehaviour
         }
 
         #endregion
+
+        void OnDrawGizmos()
+        {
+            Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y + 2f));
+
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof (Controller2D))]
@@ -57,9 +58,25 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void Damage()
+	public void Damage(DamageType type)
 	{
-		health--;
+		switch (type)
+		{
+			case DamageType.Generic:
+				health--;
+				break;
+			case DamageType.Explosion:
+				//TODO play animation
+				health--;
+				break;
+			case DamageType.Fire:
+				//TODO play animation
+				health--;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(type), type, null);
+		}
+
 		if(health <= 0)
 		{
 			Destroy(gameObject);

@@ -194,4 +194,13 @@ public class Player : MonoBehaviour {
 		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below)?accelerationTimeGrounded:accelerationTimeAirborne);
 		velocity.y += gravity * Time.deltaTime;
     }
+
+    /// <summary>
+    /// Adds ammo for primary weapon.
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddAmmo(int amount)
+    {
+        GetComponent<ThrowScript>().PrimaryAmmo += amount;
+    }
 }

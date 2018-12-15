@@ -24,20 +24,28 @@ public class LegoScript : ThrowableScript
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isActive)
-            return;
-
-        if (collision.gameObject.tag == "Player")
+        if (isActive)
         {
-            var hitPlayer = collision.gameObject.GetComponent<Player>();
-            if (hitPlayer != Thrower)
+            if (collision.gameObject.tag == "Player")
             {
-                RigidBody.velocity = Vector2.zero;
-                hitPlayer.Damage(DamageType.Generic);
+                var hitPlayer = collision.gameObject.GetComponent<Player>();
+                if (hitPlayer != Thrower)
+                {
+                    RigidBody.velocity = Vector2.zero;
+                    hitPlayer.Damage(DamageType.Generic);
+                }
+            }
+            else if (collision.gameObject.tag == "Wall")
+                isActive = false;
+        }
+        else
+        {
+            if (collision.gameObject.tag == "Player")
+            {
+                var hitPlayer = collision.gameObject.GetComponent<Player>();
+                hitPlayer.AddAmmo(1);
+                Destroy(gameObject);
             }
         }
-        else if (collision.gameObject.tag == "Wall")
-            isActive = false;
-
     }
 }

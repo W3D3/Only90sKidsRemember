@@ -19,13 +19,23 @@ public class PlayerInput : MonoBehaviour
         Vector2 directionalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
         player.SetDirectionalInput(directionalInput);
 
-        if (gamepadInput.JumpPressed())
+        if (gamepadInput.IsJumpPressed())
         {
             player.OnJumpInputDown();
         }
-        if (gamepadInput.JumpReleased())
+        if (gamepadInput.IsJumpReleased())
         {
             player.OnJumpInputUp();
         }
+
+        if (gamepadInput.IsRegularFirePressed())
+            Debug.Log("fire pressed");
+        if(gamepadInput.IsRegularFireReleased())
+            Debug.Log("fire released");
+        if(gamepadInput.IsSpecialFirePressed())
+            Debug.Log("special pressed");
+        if (gamepadInput.IsSpecialFireReleased())
+            Debug.Log("special released");
+
     }
 }

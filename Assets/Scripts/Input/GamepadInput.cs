@@ -3,16 +3,21 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Gamepad Input for Keyboard and Xbox Controller.
+/// Gamepad Input for Keyboard and Xbox Controller for Windows Platform.
 /// </summary>
 public class GamepadInput : MonoBehaviour
 {
     public bool EnablePlayerControls;
 
     /// <summary>
-    /// Mapped via <see cref="ControllerType"/>.
+    /// The controller number from 0-4. Mapped via <see cref="ControllerType"/>.
     /// </summary>
     public int ControllerNumber;
+
+    /// <summary>
+    /// The threshold for shooting buttons.
+    /// </summary>
+    public float ShootingButtonThreshold;
 
     public enum ControllerType
     {
@@ -26,6 +31,7 @@ public class GamepadInput : MonoBehaviour
     private const string LeftHorizontal = "LeftHorizontal";
     private const string RightHorizontal = "RightHorizontal";
     private const string RightVertical = "RightVertical";
+    private const string Shoot = "Shoot";
 
     // Use this for initialization
     // ReSharper disable once Unity.RedundantEventFunction
@@ -106,7 +112,7 @@ public class GamepadInput : MonoBehaviour
     /// Returns true if the jump button was pressed.
     /// </summary>
     /// <returns></returns>
-    public bool JumpPressed()
+    public bool IsJumpPressed()
     {
         return Input.GetKeyDown(GetJumpKeyCodeForController());
     }
@@ -115,7 +121,7 @@ public class GamepadInput : MonoBehaviour
     /// Returns true if the jump button was released.
     /// </summary>
     /// <returns></returns>
-    public bool JumpReleased()
+    public bool IsJumpReleased()
     {
         return Input.GetKeyUp(GetJumpKeyCodeForController());
     }
@@ -127,5 +133,75 @@ public class GamepadInput : MonoBehaviour
     public bool Pause()
     {
         return Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7);
+    }
+
+    private bool regularFirePressed = false;
+    /// <summary>
+    /// Returns true if the fire button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsRegularFirePressed()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (pressedDepth > ShootingButtonThreshold)
+        {
+            regularFirePressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if the fire button was released after it was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsRegularFireReleased()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (regularFirePressed && pressedDepth < ShootingButtonThreshold)
+        {
+            regularFirePressed = false;
+            return true;
+        }
+        return false;
+    }
+
+    private bool specialFirePressed = false;
+    /// <summary>
+    /// Returns true if the special fire button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsSpecialFirePressed()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (pressedDepth < -ShootingButtonThreshold)
+        {
+            specialFirePressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if the special fire button was released after it was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsSpecialFireReleased()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (specialFirePressed && pressedDepth > -ShootingButtonThreshold)
+        {
+            specialFirePressed = false;
+            return true;
+        }
+        return false;
     }
 }

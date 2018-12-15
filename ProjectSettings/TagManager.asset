@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Through
+  - Throwable
+  - Wall
+  - ItemSpawner
   layers:
   - Default
   - TransparentFX

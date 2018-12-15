@@ -57,22 +57,26 @@ public class ThrowScript : MonoBehaviour
             }
         }
 
-        if (input.IsRegularFireReleased() && PrimaryAmmo > 0)
+        if (input.IsRegularFireReleased())
         {
             Charging = false;
             PrimaryAmmo--;
             CanCharge = PrimaryAmmo > 0;
 
-            var collider2d = GetComponent<Collider2D>();
+            if (PrimaryAmmo > 0)
+            {
 
-            var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
+                var collider2d = GetComponent<Collider2D>();
 
-            ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
+                var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
-            var throwable = Instantiate(PrimaryWeapon);
-            throwable.gameObject.transform.position = Position.position + ThrowOffset;
-            throwable.SetSpeed(direction, Speed);
-            Debug.Log(direction * Speed);
+                ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
+
+                var throwable = Instantiate(PrimaryWeapon);
+                throwable.gameObject.transform.position = Position.position + ThrowOffset;
+                throwable.SetSpeed(direction, Speed);
+                Debug.Log(direction * Speed);
+            }
         }
 
         #region special weapon
@@ -86,7 +90,7 @@ public class ThrowScript : MonoBehaviour
 
 
 
-        if (Charging)
+        if (ChargeSpecialWeapon)
         {
             SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
 
@@ -97,23 +101,26 @@ public class ThrowScript : MonoBehaviour
             }
         }
 
-        if (input.IsSpecialFireReleased() && SpecialWeapon != null)
+        if (input.IsSpecialFireReleased())
         {
-            CanUseSpecialWeapon = false;
+            CanUseSpecialWeapon = true;
             ChargeSpecialWeapon = false;
 
-            var collider2d = GetComponent<Collider2D>();
+            if (SpecialWeapon != null)
+            {
+                var collider2d = GetComponent<Collider2D>();
 
-            var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
+                var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
-            ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
+                ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
 
-            var throwable = Instantiate(SpecialWeapon);
-            throwable.gameObject.transform.position = Position.position + ThrowOffset;
-            throwable.Thrower = Player;
-            throwable.SetSpeed(direction, SpeedSpecialWeapon);
+                var throwable = Instantiate(SpecialWeapon);
+                throwable.gameObject.transform.position = Position.position + ThrowOffset;
+                throwable.Thrower = Player;
+                throwable.SetSpeed(direction, SpeedSpecialWeapon);
 
-            SpecialWeapon = null;
+                SpecialWeapon = null;
+            }
         }
 
         #endregion

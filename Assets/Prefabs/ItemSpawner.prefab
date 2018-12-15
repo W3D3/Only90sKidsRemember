@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7448403074586941185}
   - component: {fileID: 7448403074586941184}
+  - component: {fileID: 944458845525625302}
   - component: {fileID: 7448403074586941187}
   - component: {fileID: 7448403074586941198}
   m_Layer: 0
   m_Name: ItemSpawner
-  m_TagString: Untagged
+  m_TagString: ItemSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b2755e2d7dbfe45dfbc43b208bb29da0, type: 3}
-  m_Color: {r: 0.14244395, g: 0.25026572, b: 0.31132078, a: 1}
+  m_Color: {r: 0, g: 0.6511631, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -81,6 +82,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &944458845525625302
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448403074586941186}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1000000
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!61 &7448403074586941187
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -91,7 +113,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -121,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items:
   - {fileID: 3317387678664019698, guid: 8daa7f4f28d1e6a48bb38ebac7d59698, type: 3}
-  - {fileID: 3317387678664019698, guid: b7190fc91c59fda4b80808eb04d725ca, type: 3}
+  - {fileID: 5208797774267261987, guid: b7190fc91c59fda4b80808eb04d725ca, type: 3}
   - {fileID: 4128326498634065325, guid: 38987ac14d719424ba45fd07e799d138, type: 3}
-  - {fileID: 3317387678664019698, guid: 085e8c03bb0138e459719b314603adae, type: 3}
+  - {fileID: 2386413914987433124, guid: 085e8c03bb0138e459719b314603adae, type: 3}
   - {fileID: 6975470620586874854, guid: 140677b73d9cec44ab5ff205b68dc5ce, type: 3}

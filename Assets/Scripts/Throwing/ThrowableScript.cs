@@ -7,6 +7,7 @@ public class ThrowableScript : MonoBehaviour
 
     public SpriteRenderer SpriteRenderer;
 
+
     /// <summary>
     /// The stepsize to raise the speed if charged.
     /// </summary>

@@ -5,11 +5,11 @@ using UnityEngine;
 public class ItemSpawnerScript : MonoBehaviour
 {
     public List<ThrowableScript> Items;
+
     
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -18,12 +18,19 @@ public class ItemSpawnerScript : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D c)
     {
-        if (collision.gameObject.tag == "Player")
+        if (c.gameObject.tag == "Player")
         {
-            var player = collision.gameObject.GetComponent<Player>();
-             var throwable = Create();
+            var player = c.gameObject.GetComponent<Player>();
+            var throwScript = player.GetComponent<ThrowScript>();
+
+            if (throwScript.SpecialWeapon == null)
+            {
+                throwScript.SpecialWeapon = Create();
+            }
+            gameObject.SetActive(false);
+            Invoke("Reactivate", 1);
         }
     }
 
@@ -36,4 +43,9 @@ public class ItemSpawnerScript : MonoBehaviour
         return prefab;
     }
 
+
+    public void Reactivate()
+    {
+        gameObject.SetActive(true);
+    }
 }

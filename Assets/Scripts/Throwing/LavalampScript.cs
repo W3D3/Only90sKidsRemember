@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LavalampScript : MonoBehaviour
+public class LavalampScript : ThrowableScript
 {
     public Rigidbody2D Rigidbody2D;
 

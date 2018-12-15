@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ThrowScript : MonoBehaviour
@@ -35,7 +36,7 @@ public class ThrowScript : MonoBehaviour
         Player = GetComponent<Player>();
         animator = GetComponent<Animator>();
 
-        SpriteCharge = GetComponentsInChildren<SpriteRenderer>()[1];
+        SpriteCharge = GetComponentsInChildren<SpriteRenderer>().Last();
         SpriteCharge.size = new Vector2(0, SpriteCharge.size.y);
     }
 
@@ -139,6 +140,8 @@ public class ThrowScript : MonoBehaviour
             throwable.Thrower = Player;
             throwable.SetSpeed(ShootingDirection, SpeedSpecialWeapon);
             animator.Play("throw");
+                var cmps = Player.GetComponentsInChildren<SpriteRenderer>();
+                cmps[cmps.Length - 2].sprite = null;
             
             SpecialWeapon = null;
         }

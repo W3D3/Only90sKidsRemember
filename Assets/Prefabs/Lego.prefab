@@ -143,8 +143,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  SpeedStep: 40
   Thrower: {fileID: 0}
+  SpeedStep: 40
+  MaxSpeed: 50
   BrickColors:
   - serializedVersion: 2
     rgba: 4279766256

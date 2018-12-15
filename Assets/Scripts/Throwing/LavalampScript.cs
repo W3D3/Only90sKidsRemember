@@ -14,6 +14,11 @@ public class LavalampScript : ThrowableScript
     /// </summary>
     public float MaxTurnSpeedDeadzone;
 
+    /// <summary>
+    /// The explosion.
+    /// </summary>
+    public Explosion ExplosionPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,5 +32,20 @@ public class LavalampScript : ThrowableScript
 
     }
 
-    // todo explode
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Player>() != Thrower)
+        {
+            RigidBody.velocity = Vector2.zero;
+            Explode();
+        }
+    }
+
+    public void Explode()
+    {
+        var explosion = Instantiate(ExplosionPrefab);
+        explosion.transform.position = transform.position;
+
+        Destroy(gameObject);
+    }
 }

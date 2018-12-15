@@ -34,6 +34,11 @@ public class Player : MonoBehaviour {
 	int wallDirX;
 
     /// <summary>
+    /// True if the looking direction is right.
+    /// </summary>
+    public bool LookingRight;
+
+    /// <summary>
     /// The speed to move towards the jojo.
     /// </summary>
     public int JojoDragSpeed;
@@ -60,6 +65,9 @@ public class Player : MonoBehaviour {
 		HandleWallSliding ();
 
 		controller.Move (velocity * Time.deltaTime, directionalInput);
+
+        if (velocity.x != 0)
+            LookingRight = velocity.x > 0 ? true : false;
 
 		if (controller.collisions.above || controller.collisions.below) {
 			if (controller.collisions.slidingDownMaxSlope) {

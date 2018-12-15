@@ -115,7 +115,10 @@ public class Player : MonoBehaviour {
 		    components[components.Length - 2].sprite = null;
             death = true;
 
+		    
 		    GetComponent<BoxCollider2D>().enabled = false;
+		    GetComponent<Player>().enabled = false;
+		    
 		} 
 			
 	}

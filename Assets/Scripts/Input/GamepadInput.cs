@@ -2,131 +2,206 @@
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Gamepad Input for Keyboard and Xbox Controller for Windows Platform.
+/// </summary>
 public class GamepadInput : MonoBehaviour
 {
-    private static GamepadInput _instance;
+    public bool EnablePlayerControls;
 
-    private static bool EnablePlayerControls = true;
-    private static bool EnableColorControls = true;
+    /// <summary>
+    /// The controller number from 0-4. Mapped via <see cref="ControllerType"/>.
+    /// </summary>
+    public int ControllerNumber;
 
-    private void Awake()
+    /// <summary>
+    /// The threshold for shooting buttons.
+    /// </summary>
+    public float ShootingButtonThreshold;
+
+    public enum ControllerType
     {
-        if (_instance == null)
-            _instance = this;
+        Keyboard = 0,
+        Joystick1 = 1,
+        Joystick2 = 2,
+        Joystick3 = 3,
+        Joystick4 = 4
     }
+
+    private const string LeftHorizontal = "LeftHorizontal";
+    private const string RightHorizontal = "RightHorizontal";
+    private const string RightVertical = "RightVertical";
+    private const string Shoot = "Shoot";
 
     // Use this for initialization
     // ReSharper disable once Unity.RedundantEventFunction
     void Start()
     {
-        EnableColorControls = true;
-        EnablePlayerControls = true;
     }
 
     // Update is called once per frame
     // ReSharper disable once Unity.RedundantEventFunction
     void Update()
     {
-        //foreach (string s in Input.GetJoystickNames())
-        //    Debug.Log(s);
-
-        //int i = 0;
-        //while (i < 4)
-        //{
-        //    if (Mathf.Abs(Input.GetAxis("Joy" + (i+1) + "X")) > 0.2F || Mathf.Abs(Input.GetAxis("Joy" + (i + 1) + "Y")) > 0.2F)
-        //        Debug.Log(Input.GetJoystickNames()[i] + " is moved");
-
-        //    i++;
-        //}
-        
-    /*
-        if (Jump())
-            Debug.Log("jump pressed");
-
-        if (Dash())
-            Debug.Log("dash pressed");
-
-        if (Color1())
-            Debug.Log("left trigger pressed");
-
-        if (Color2())
-            Debug.Log("right trigger pressed");
-
-        if (ColorMixed())
-            Debug.Log("both trigger pressed");
-        */
-
     }
 
-    private const string Color1Button = "Color1";
-    private const string Color2Button = "Color2";
-    private const string Horizontal = "Horizontal";
-    private const string HorizontalSwitch = "HorizontalSwitch";
-    private const string PauseAxis = "Pause";
-    private const double Tolerance = .1;
-
-    private static readonly string[] SwitchGamepadNames = { "Wireless Gamepad", "Unknown Pro Controller" };
-
-    private static bool IsNintendoSwitchProController(string controllerName)
+    /// <summary>
+    /// Returns the value from the left stick X axis.
+    /// </summary>
+    /// <returns></returns>
+    public float GetLeftHorizontalValue()
     {
-        return SwitchGamepadNames.Contains(controllerName);
-    }
-    
-    public static float HorizontalVal()
-    {
-        var horVal = Input.GetAxis(Horizontal);
-
-        foreach (var controllerName in Input.GetJoystickNames())
-        {
-            var horValSwitch = Input.GetAxis(HorizontalSwitch);
-
-            if (!IsNintendoSwitchProController(controllerName) || Math.Abs(horValSwitch) < Tolerance) continue;
-            
-            horVal = horValSwitch;
-            break;
-        }
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(LeftHorizontal + t.ToString());
 
         return EnablePlayerControls ? horVal : 0;
     }
 
-
-    public static bool Jump()
+    /// <summary>
+    /// Returns the value from the right stick X axis.
+    /// </summary>
+    /// <returns></returns>
+    public float GetRightHorizontalValue()
     {
-        return EnableColorControls && (Input.GetKeyDown(KeyCode.Space) || // keyboard
-                                       Input.GetKeyDown(KeyCode.JoystickButton0) || // switch and xbox controller
-                                       Input.GetKeyDown(KeyCode.JoystickButton16)); // macOS binding
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(RightHorizontal + t.ToString());
+
+        return EnablePlayerControls ? horVal : 0;
     }
 
-    public static bool Dash()
+    /// <summary>
+    /// Returns the value from the right stick Y axis.
+    /// </summary>
+    /// <returns></returns>
+    public float GetRightVerticalValue()
     {
-        return EnableColorControls && (Input.GetKeyDown(KeyCode.LeftShift) || // keyboard
-                                       Input.GetKeyDown(KeyCode.JoystickButton2) || // switch and xbox controller
-                                       Input.GetKeyDown(KeyCode.JoystickButton18)); // macOS binding
+        ControllerType t = (ControllerType)ControllerNumber;
+        var horVal = Input.GetAxis(RightVertical + t.ToString());
+
+        return EnablePlayerControls ? horVal : 0;
     }
 
-    public static bool Color1()
+    private KeyCode GetJumpKeyCodeForController()
     {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) > Tolerance &&
-               Input.GetAxis(Color2Button) < Tolerance;
+        KeyCode code = KeyCode.Space;
+        switch ((ControllerType)ControllerNumber)
+        {
+            case ControllerType.Keyboard:
+                code = KeyCode.Space;
+                break;
+            case ControllerType.Joystick1:
+                code = KeyCode.Joystick1Button0;
+                break;
+            case ControllerType.Joystick2:
+                code = KeyCode.Joystick2Button0;
+                break;
+            case ControllerType.Joystick3:
+                code = KeyCode.Joystick3Button0;
+                break;
+            case ControllerType.Joystick4:
+                code = KeyCode.Joystick4Button0;
+                break;
+            default:
+                break;
+        }
+
+        return code;
     }
 
-    public static bool Color2()
+    /// <summary>
+    /// Returns true if the jump button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsJumpPressed()
     {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) < Tolerance &&
-               Input.GetAxis(Color2Button) > Tolerance;
+        return Input.GetKeyDown(GetJumpKeyCodeForController());
     }
 
-    public static bool ColorMixed()
+    /// <summary>
+    /// Returns true if the jump button was released.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsJumpReleased()
     {
-        return EnableColorControls &&
-               Input.GetAxis(Color1Button) > Tolerance &&
-               Input.GetAxis(Color2Button) > Tolerance;
+        return Input.GetKeyUp(GetJumpKeyCodeForController());
     }
 
-    public static bool Pause()
+    /// <summary>
+    /// Pauses the game for all controllers.
+    /// </summary>
+    /// <returns></returns>
+    public bool Pause()
     {
         return Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7);
+    }
+
+    private bool regularFirePressed = false;
+    /// <summary>
+    /// Returns true if the fire button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsRegularFirePressed()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (pressedDepth > ShootingButtonThreshold)
+        {
+            regularFirePressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if the fire button was released after it was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsRegularFireReleased()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (regularFirePressed && pressedDepth < ShootingButtonThreshold)
+        {
+            regularFirePressed = false;
+            return true;
+        }
+        return false;
+    }
+
+    private bool specialFirePressed = false;
+    /// <summary>
+    /// Returns true if the special fire button was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsSpecialFirePressed()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (pressedDepth < -ShootingButtonThreshold)
+        {
+            specialFirePressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if the special fire button was released after it was pressed.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsSpecialFireReleased()
+    {
+        ControllerType t = (ControllerType)ControllerNumber;
+        float pressedDepth = Input.GetAxis(Shoot + t.ToString());
+
+        if (specialFirePressed && pressedDepth > -ShootingButtonThreshold)
+        {
+            specialFirePressed = false;
+            return true;
+        }
+        return false;
     }
 }

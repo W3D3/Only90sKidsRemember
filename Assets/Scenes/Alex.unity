@@ -208,12 +208,17 @@ PrefabInstance:
         type: 3}
       propertyPath: PrimaryWeapon
       value: 
-      objectReference: {fileID: 6975470620586874854, guid: 140677b73d9cec44ab5ff205b68dc5ce,
+      objectReference: {fileID: 6887649498201617651, guid: 8daa7f4f28d1e6a48bb38ebac7d59698,
         type: 3}
     - target: {fileID: 2960098624610474328, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
         type: 3}
       propertyPath: PrimaryAmmo
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960098624610474320, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5,
+        type: 3}
+      propertyPath: JojoDragSpeed
+      value: 80
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4940a7f5d4f6846c0b7b12b9f2c940f5, type: 3}
@@ -348,7 +353,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

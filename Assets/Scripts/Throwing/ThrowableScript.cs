@@ -25,6 +25,8 @@ public class ThrowableScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RigidBody = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame

@@ -27,8 +27,14 @@ public class ItemSpawnerScript : MonoBehaviour
 
             if (throwScript.SpecialWeapon == null)
             {
-                throwScript.SpecialWeapon = Create();
+                var weapon = Create();
+                throwScript.SpecialWeapon = weapon;
                 throwScript.CanUseSpecialWeapon = true;
+
+
+                var childRenderer = throwScript.GetComponentInChildren<SpriteRenderer>();
+                childRenderer.sprite = weapon.GetComponent<SpriteRenderer>().sprite;
+                childRenderer.size = new Vector2(0.05f, 0.05f);
             }
             gameObject.SetActive(false);
             Invoke("Reactivate", 1);

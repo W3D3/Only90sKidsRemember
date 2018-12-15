@@ -85,7 +85,6 @@ public class ThrowScript : MonoBehaviour
 
     private void HandleShootSpecialWeapon()
     {
-        var maxSpeed = SpecialWeapon.MaxSpeed;
         if (input.IsSpecialFirePressed() && CanUseSpecialWeapon)
         {
             SpeedSpecialWeapon = 0.5f;
@@ -97,10 +96,10 @@ public class ThrowScript : MonoBehaviour
         {
             SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
 
-            if (SpeedSpecialWeapon > maxSpeed)
+            if (SpeedSpecialWeapon > SpecialWeapon.MaxSpeed)
             {
                 ChargeSpecialWeapon = false;
-                SpeedSpecialWeapon = maxSpeed;
+                SpeedSpecialWeapon = SpecialWeapon.MaxSpeed;
             }
         }
 
@@ -122,7 +121,7 @@ public class ThrowScript : MonoBehaviour
                 throwable.gameObject.transform.position = Position.position + ThrowOffset;
                 throwable.Thrower = Player;
                 throwable.SetSpeed(direction, SpeedSpecialWeapon);
-
+                
                 SpecialWeapon = null;
             }
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawnerScript : MonoBehaviour
+public class ItemSpawnerScript: MonoBehaviour
 {
     public List<ThrowableScript> Items;
 
@@ -27,8 +27,14 @@ public class ItemSpawnerScript : MonoBehaviour
 
             if (throwScript.SpecialWeapon == null)
             {
-                throwScript.SpecialWeapon = Create();
+                var weapon = Create();
+                throwScript.SpecialWeapon = weapon;
                 throwScript.CanUseSpecialWeapon = true;
+
+
+                var childRenderer = throwScript.GetComponentInChildren<SpriteRenderer>();
+                childRenderer.sprite = weapon.Thumbnail;
+                childRenderer.size = new Vector2(0.1f, 0.1f);
             }
             gameObject.SetActive(false);
             Invoke("Reactivate", 1);

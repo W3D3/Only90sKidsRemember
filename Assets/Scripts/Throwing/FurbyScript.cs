@@ -13,8 +13,8 @@ public class FurbyScript : ThrowableScript
     public int MinTime = 3;
     public int MaxTime = 7;
 
-    public Explosion explosionPrefab;
-            
+    public Explosion ExplosionPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,14 +25,14 @@ public class FurbyScript : ThrowableScript
     void Update()
     {
         var raycastDown = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector3.down), SpriteBounds.size.y / 2f + 0.1f);
-        
+
         if (raycastDown.Length > 1 && MovementActivated)
         {
             // colliding with object bottom
             // move left or right
             RigidBody.velocity = new Vector2(FaceDirection == 1 ? Speed : -Speed, RigidBody.velocity.y);
         }
-        
+
         var raycastRight = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector3.right), SpriteBounds.size.x / 2f + 0.1f);
         if (raycastRight.Length > 1)
         {
@@ -46,13 +46,6 @@ public class FurbyScript : ThrowableScript
         }
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * (SpriteBounds.size.y / 2f + 0.1f));
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * (SpriteBounds.size.y / 2f + 0.1f));
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * (SpriteBounds.size.y / 2f + 0.1f));
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         // activate movement
@@ -61,9 +54,9 @@ public class FurbyScript : ThrowableScript
 
     public void Explode()
     {
-        Debug.Log("Explode");
-        explosionPrefab.transform.position = transform.position;
-        Instantiate(explosionPrefab);
+        var explosion = Instantiate(ExplosionPrefab);
+        explosion.transform.position = transform.position;
+
         Destroy(gameObject);
     }
 }

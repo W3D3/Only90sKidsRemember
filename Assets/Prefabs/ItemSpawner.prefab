@@ -116,10 +116,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Items:
-  - {fileID: 3317387678664019698, guid: 8daa7f4f28d1e6a48bb38ebac7d59698, type: 3}
-  - {fileID: 5208797774267261987, guid: b7190fc91c59fda4b80808eb04d725ca, type: 3}
-  - {fileID: 4128326498634065325, guid: 38987ac14d719424ba45fd07e799d138, type: 3}
-  - {fileID: 2386413914987433124, guid: 085e8c03bb0138e459719b314603adae, type: 3}
+  - {fileID: 1424297401180894935, guid: 26fc9326342ef334babc02ea3b05e028, type: 3}
+  - {fileID: 1424297401180894935, guid: 26fc9326342ef334babc02ea3b05e028, type: 3}
+  - {fileID: 88129102255526704, guid: 4ce4912ee18ad674eae72135d4413939, type: 3}
+  - {fileID: 3630926435708593616, guid: 0dce555725f264fe88114f65cc900fd4, type: 3}
   - {fileID: 3630926435708593616, guid: 0dce555725f264fe88114f65cc900fd4, type: 3}
 --- !u!61 &7719368348627015562
 BoxCollider2D:

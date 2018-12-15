@@ -97,8 +97,11 @@ MonoBehaviour:
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Thrower: {fileID: 0}
+  MaxTurnSpeed: 0
+  MinTurnSpeed: 0
   SpeedStep: 20
   MaxSpeed: 30
+  Thumbnail: {fileID: 21300000, guid: 0d91b73baa6d7694191d222f2eae1381, type: 3}
   MovementActivated: 0
   FaceDirection: 1
   Speed: 1.5

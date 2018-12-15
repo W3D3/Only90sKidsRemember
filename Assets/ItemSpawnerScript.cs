@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawnerScript : MonoBehaviour
+public class movment: MonoBehaviour
 {
     public List<ThrowableScript> Items;
 

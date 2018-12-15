@@ -32,7 +32,8 @@ public class ItemSpawnerScript: MonoBehaviour
                 throwScript.CanUseSpecialWeapon = true;
 
 
-                var childRenderer = throwScript.GetComponentInChildren<SpriteRenderer>();
+                var cmps = throwScript.GetComponentsInChildren<SpriteRenderer>();
+                var childRenderer = cmps[cmps.Length - 2];
                 childRenderer.sprite = weapon.Thumbnail;
                 childRenderer.size = new Vector2(0.1f, 0.1f);
             }

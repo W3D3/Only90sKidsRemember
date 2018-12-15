@@ -107,7 +107,7 @@ public class ThrowScript : MonoBehaviour
 
             var throwable = Instantiate(SpecialWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
-            throwable.InstantiateSpeed(direction, SpeedSpecialWeapon);
+            throwable.SetSpeed(direction, SpeedSpecialWeapon);
 
             SpecialWeapon = null;
         }

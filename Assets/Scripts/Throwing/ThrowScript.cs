@@ -62,14 +62,14 @@ public class ThrowScript : MonoBehaviour
             CanCharge = PrimaryAmmo > 0;
 
             var collider2d = GetComponent<Collider2D>();
-            
+
             var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
             ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
 
             var throwable = Instantiate(PrimaryWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
-            throwable.InstantiateSpeed(direction, Speed);
+            throwable.SetSpeed(direction, Speed);
         }
 
         #region special weapon

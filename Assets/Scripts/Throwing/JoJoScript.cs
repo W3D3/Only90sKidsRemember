@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JoJoScript : MonoBehaviour
+public class JoJoScript : ThrowableScript
 {
-
     public Rigidbody2D RigidBody;
 
     // Start is called before the first frame update

@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
     public string Name;
     	
 	//health and stuff
-	private int health = 1;
+	public int health = 1;
 
     void Start() {
 		controller = GetComponent<Controller2D> ();
@@ -195,5 +195,3 @@ public class Player : MonoBehaviour {
 		velocity.y += gravity * Time.deltaTime;
     }
 }
-
-	public int health = 1;

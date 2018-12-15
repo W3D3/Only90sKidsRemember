@@ -10,7 +10,7 @@ public class AnimationScript : MonoBehaviour
     GamepadInput gamepadInput;
     private Controller2D controller;
     private Boolean isShooting;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,26 +24,42 @@ public class AnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 directonalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(),0);
+        Vector2 directonalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
+
         
-        if(directonalInput.x != 0  && controller.collisions.below)
+//        if (gamepadInput.IsRegularFirePressed() && !isShooting)
+//        {
+//            animator.SetInteger("State",2);
+//        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1
+            && animator.GetCurrentAnimatorStateInfo(0).IsName("throw"))
         {
-            animator.SetInteger("State",1);
+            isShooting = true;
+        }
+        else
+        {
+            isShooting = false;
         }
 
-        if (directonalInput.x == 0 && controller.collisions.below)
+        if (!isShooting)
         {
-            animator.SetInteger("State", 0);
+            if (directonalInput.x != 0 && controller.collisions.below)
+            {
+                animator.SetInteger("State", 1);
+            }
+
+            if (directonalInput.x == 0 && controller.collisions.below)
+            {
+                animator.SetInteger("State", 0);
+            }
+
+            if (!controller.collisions.below)
+            {
+                animator.SetInteger("State", 3);
+            }
         }
-        
-        if (!controller.collisions.below)
-        {
-            animator.SetInteger("State",3);
-        }
-       
-        if (gamepadInput.IsRegularFirePressed() )
-        {
-            animator.SetInteger("State",2);
-        }
+
+
     }
 }

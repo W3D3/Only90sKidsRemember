@@ -26,6 +26,7 @@ public class ThrowScript : MonoBehaviour
     public ThrowableScript PrimaryWeapon;
     public ThrowableScript SpecialWeapon;
 
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -34,16 +35,21 @@ public class ThrowScript : MonoBehaviour
         Position = GetComponent<Transform>();
         input = GetComponent<GamepadInput>();
         Player = GetComponent<Player>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (input.IsRegularFirePressed() && CanCharge)
+        if (input.IsRegularFirePressed())
         {
-            CanCharge = false;
-            Charging = true;
-            Speed = 0.5f;
+            if (CanCharge)
+            {
+                CanCharge = false;
+                Charging = true;
+                Speed = 0.5f;
+            }
+            
         }
 
         if (Charging)
@@ -62,7 +68,7 @@ public class ThrowScript : MonoBehaviour
             Charging = false;
             PrimaryAmmo--;
             CanCharge = PrimaryAmmo > 0;
-
+           
             if (PrimaryAmmo > 0)
             {
 
@@ -71,11 +77,12 @@ public class ThrowScript : MonoBehaviour
                 var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
 
                 ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
-
+                animator.SetInteger("State",2);
                 var throwable = Instantiate(PrimaryWeapon);
                 throwable.gameObject.transform.position = Position.position + ThrowOffset;
                 throwable.SetSpeed(direction, Speed);
                 Debug.Log(direction * Speed);
+                
             }
         }
 

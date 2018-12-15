@@ -3,24 +3,21 @@ using UnityEngine;
 
 public class ThrowScript : MonoBehaviour
 {
-    public bool CanCharge = true;
-    public bool ChargeNormalWeapon;
+    public bool PrimaryWeaponCharging;
 
-    public float Speed = 0.5f;
+    public float SpeedPrimaryWeapon = 0.5f;
     public float SpeedSpecialWeapon = 0.5f;
 
     public KeyCode ActiveKeyCode;
-
-    public Vector3 ThrowOffset;
+    
     private Transform Position;
 
     public GamepadInput input;
     public Player Player;
 
     public int PrimaryAmmo = 3;
-
-    public bool CanUseSpecialWeapon;
-    public bool ChargeSpecialWeapon;
+    
+    public bool SpecialWeaponCharging;
 
     public ThrowableScript PrimaryWeapon;
     public ThrowableScript SpecialWeapon;
@@ -32,7 +29,7 @@ public class ThrowScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Speed = 1f;
+        SpeedPrimaryWeapon = 1f;
         Position = GetComponent<Transform>();
         input = GetComponent<GamepadInput>();
         Player = GetComponent<Player>();
@@ -46,103 +43,104 @@ public class ThrowScript : MonoBehaviour
     {
         var maxSpeed = PrimaryWeapon.MaxSpeed;
 
-        if (input.IsRegularFirePressed() && CanCharge && !ChargeSpecialWeapon)
+        if (input.IsRegularFirePressed() && !SpecialWeaponCharging && PrimaryAmmo > 0)
         {
-            CanCharge = false;
-            ChargeNormalWeapon = true;
-            Speed = 10f;
+            PrimaryWeaponCharging = true;
+            SpeedPrimaryWeapon = 10f;
         }
 
-        if (ChargeNormalWeapon)
+        if (PrimaryWeaponCharging)
         {
-            Speed += Time.deltaTime * PrimaryWeapon.SpeedStep;
-            
-            var width = Speed / maxSpeed * 0.6f;
-            SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
-            if (Speed > maxSpeed)
+            if (SpeedPrimaryWeapon != maxSpeed)
             {
-                ChargeNormalWeapon = false;
-                Speed = maxSpeed;
+                SpeedPrimaryWeapon += Time.deltaTime * PrimaryWeapon.SpeedStep;
+
+                // apply charging animation
+                var width = SpeedPrimaryWeapon / maxSpeed * 0.6f;
+                SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
+
+                if (SpeedPrimaryWeapon > maxSpeed)
+                    SpeedPrimaryWeapon = maxSpeed;
             }
         }
 
-        if (input.IsRegularFireReleased())
+        if (input.IsRegularFireReleased() && PrimaryWeaponCharging)
         {
-            ChargeNormalWeapon = false;
-            PrimaryAmmo--;
-            CanCharge = PrimaryAmmo > 0;
-
-            if (PrimaryAmmo > 0)
-            {
-                var collider2d = GetComponent<Collider2D>();
-
-                // if the user isnt moving, shoot in the looking direction
-                var horiVal = input.GetRightHorizontalValue() != 0
-                    ? input.GetRightHorizontalValue()
-                    : Player.LookingRight ? 1 : -1;
-
-                var direction = new Vector2(horiVal, input.GetRightVerticalValue());
-
-                ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
+            PrimaryWeaponCharging = false;
+            SpriteCharge.size = new Vector2(0, SpriteCharge.size.y);
+            
+            // throw primary weapon
             var throwable = Instantiate(PrimaryWeapon);
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
             throwable.Thrower = Player;
-            throwable.SetSpeed(direction, Speed);
+            throwable.SetSpeed(ShootingDirection, SpeedPrimaryWeapon);
             animator.Play("throw");
-            }
+
+            --PrimaryAmmo;
         }
+    }
+
+    /// <summary>
+    /// If the user isnt moving, shoot in the looking direction
+    /// </summary>
+    private Vector2 ShootingDirection
+    {
+        get
+        {
+            float horizontalVal = input.GetRightHorizontalValue() != 0
+                   ? input.GetRightHorizontalValue()
+                   : Player.LookingRight ? 1 : -1;
+
+            return new Vector2(horizontalVal, input.GetRightVerticalValue());
+        }
+    }
+
+    /// <summary>
+    /// The offset to start the Throwable.
+    /// </summary>
+    private Vector3 ThrowOffset
+    {
+        get { return ShootingDirection.normalized * GetComponent<Collider2D>().bounds.size / 1.5f; }
     }
 
     private void HandleShootSpecialWeapon()
     {
-        if (input.IsSpecialFirePressed() && CanUseSpecialWeapon && !ChargeNormalWeapon)
+        var maxSpeed = SpecialWeapon.MaxSpeed;
+
+        if (input.IsSpecialFirePressed() && !PrimaryWeaponCharging && SpecialWeapon != null)
         {
+            SpecialWeaponCharging = true;
             SpeedSpecialWeapon = 0.5f;
-            CanUseSpecialWeapon = false;
-            ChargeSpecialWeapon = true;
         }
 
-        if (ChargeSpecialWeapon)
+        if (SpecialWeaponCharging)
         {
-            if (SpecialWeapon != null)
+            if (SpeedSpecialWeapon != maxSpeed)
             {
                 SpeedSpecialWeapon += Time.deltaTime * SpecialWeapon.SpeedStep;
-                var width = SpeedSpecialWeapon / SpecialWeapon.MaxSpeed * 0.6f;
+
+                // apply charging animation
+                var width = SpeedSpecialWeapon / maxSpeed * 0.6f;
                 SpriteCharge.size = new Vector2(width, SpriteCharge.size.y);
 
-                if (SpeedSpecialWeapon > SpecialWeapon.MaxSpeed)
-                {
-                    ChargeSpecialWeapon = false;
-                    SpeedSpecialWeapon = SpecialWeapon.MaxSpeed;
-                }
+                if (SpeedSpecialWeapon > maxSpeed)
+                    SpeedSpecialWeapon = maxSpeed;
             }
         }
 
-        if (input.IsSpecialFireReleased())
+        if (input.IsSpecialFireReleased() && SpecialWeaponCharging)
         {
-            ChargeSpecialWeapon = false;
-            CanUseSpecialWeapon = true;
-
+            SpecialWeaponCharging = false;
             SpriteCharge.size = new Vector2(0, SpriteCharge.size.y);
-
-            if (SpecialWeapon != null)
-            {
-                CanUseSpecialWeapon = false;
-                var collider2d = GetComponent<Collider2D>();
-
-                var direction = new Vector2(input.GetRightHorizontalValue(), input.GetRightVerticalValue());
-
-                ThrowOffset = direction.normalized * collider2d.bounds.size / 1.5f;
-
-                var throwable = Instantiate(SpecialWeapon);
-                throwable.gameObject.transform.position = Position.position + ThrowOffset;
-                throwable.Thrower = Player;
-                throwable.SetSpeed(direction, SpeedSpecialWeapon);
-
-                Player.GetComponentInChildren<SpriteRenderer>().sprite = null;
-
-                SpecialWeapon = null;
-            }
+            
+            // throw special weapon
+            var throwable = Instantiate(SpecialWeapon);
+            throwable.gameObject.transform.position = Position.position + ThrowOffset;
+            throwable.Thrower = Player;
+            throwable.SetSpeed(ShootingDirection, SpeedSpecialWeapon);
+            animator.Play("throw");
+            
+            SpecialWeapon = null;
         }
     }
 

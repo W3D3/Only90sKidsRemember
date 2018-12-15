@@ -29,8 +29,6 @@ public class ItemSpawnerScript: MonoBehaviour
             {
                 var weapon = Create();
                 throwScript.SpecialWeapon = weapon;
-                throwScript.CanUseSpecialWeapon = true;
-
 
                 var childRenderer = throwScript.GetComponentInChildren<SpriteRenderer>();
                 childRenderer.sprite = weapon.Thumbnail;

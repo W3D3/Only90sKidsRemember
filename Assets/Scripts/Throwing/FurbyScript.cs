@@ -63,8 +63,7 @@ public class FurbyScript : ThrowableScript
     {
         Debug.Log("Explode");
         explosionPrefab.transform.position = transform.position;
-        var explIntance = Instantiate(explosionPrefab);
-        Instantiate(explIntance);
+        Instantiate(explosionPrefab);
         Destroy(gameObject);
     }
 }

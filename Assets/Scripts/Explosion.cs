@@ -10,7 +10,7 @@ public class Explosion : MonoBehaviour
     void Start()
     {
         var animation = this.GetComponent<Animator>();
-        Invoke("Remove", 1000);
+        Invoke("Remove", .5f);
         //animation.Play("Explosion_Anim");
         foreach (var affected in Physics2D.OverlapCircleAll(transform.position, radius))
         {
@@ -27,6 +27,7 @@ public class Explosion : MonoBehaviour
     // Update is called once per frame
     void Remove()
     {
+        Debug.Log("Explosion done");
         Destroy(gameObject);
     }
 }

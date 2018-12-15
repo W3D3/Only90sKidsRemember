@@ -33,7 +33,15 @@ public class Player : MonoBehaviour {
 	bool wallSliding;
 	int wallDirX;
 
+    /// <summary>
+    /// The speed to move towards the jojo.
+    /// </summary>
     public int JojoDragSpeed;
+
+    /// <summary>
+    /// The player name.
+    /// </summary>
+    public string Name;
     	
 	//health and stuff
 	public int health = 1;

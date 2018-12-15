@@ -96,8 +96,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RigidBody: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  SpeedStep: 30
   Thrower: {fileID: 0}
+  SpeedStep: 20
+  MaxSpeed: 30
   MovementActivated: 0
   FaceDirection: 1
   Speed: 1.5

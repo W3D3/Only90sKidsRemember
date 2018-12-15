@@ -67,7 +67,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 3
+    axis: 0
     joyNum: 1
   - serializedVersion: 3
     m_Name: LeftHorizontalJoystick2
@@ -99,7 +99,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 3
+    axis: 0
     joyNum: 2
   - serializedVersion: 3
     m_Name: LeftHorizontalJoystick3
@@ -131,7 +131,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 3
+    axis: 0
     joyNum: 3
   - serializedVersion: 3
     m_Name: LeftHorizontalJoystick4
@@ -163,7 +163,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 2
-    axis: 3
+    axis: 0
     joyNum: 4
   - serializedVersion: 3
     m_Name: RightVerticalJoystick1
@@ -179,7 +179,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 4
+    axis: 1
     joyNum: 1
   - serializedVersion: 3
     m_Name: RightVerticalJoystick2
@@ -195,7 +195,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 4
+    axis: 1
     joyNum: 2
   - serializedVersion: 3
     m_Name: RightVerticalJoystick3
@@ -211,7 +211,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 4
+    axis: 1
     joyNum: 3
   - serializedVersion: 3
     m_Name: RightVerticalJoystick4
@@ -227,7 +227,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 4
+    axis: 1
     joyNum: 4
   - serializedVersion: 3
     m_Name: RightVerticalKeyboard

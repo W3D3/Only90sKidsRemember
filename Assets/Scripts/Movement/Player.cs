@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
 
 	public float wallSlideSpeedMax = 3;
 	public float wallStickTime = .25f;
+	public Animator animator;
 
     float timeToWallUnstick;
 
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour {
 	bool wallSliding;
 	int wallDirX;
 
+	private bool death = false;
+
     public int JojoDragSpeed;
     	
 	//health and stuff
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour {
 
     void Start() {
 		controller = GetComponent<Controller2D> ();
+		animator = GetComponent<Animator>();
 
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -81,9 +85,11 @@ public class Player : MonoBehaviour {
 				throw new ArgumentOutOfRangeException(nameof(type), type, null);
 		}
 
-		if(health <= 0)
+		if(health <= 0 && !death)
 		{
-			Destroy(gameObject);
+			animator.Play("death");
+			GetComponent<GamepadInput>().EnablePlayerControls = false;
+			death = true;
 		} 
 			
 	}

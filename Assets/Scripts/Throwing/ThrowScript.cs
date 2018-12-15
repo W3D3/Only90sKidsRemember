@@ -77,7 +77,7 @@ public class ThrowScript : MonoBehaviour
             throwable.gameObject.transform.position = Position.position + ThrowOffset;
             throwable.Thrower = Player;
             throwable.SetSpeed(direction, Speed);
-            animator.SetInteger("State",2);
+            animator.Play("throw");
             }
         }
 

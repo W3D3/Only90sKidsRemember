@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AnimationScript : MonoBehaviour
@@ -11,6 +12,12 @@ public class AnimationScript : MonoBehaviour
     private Controller2D controller;
     private Boolean isShooting;
 
+    private bool isfacingRight = false;
+
+    private SpriteRenderer[] renderers;
+
+   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,32 +25,39 @@ public class AnimationScript : MonoBehaviour
         player = GetComponent<Player>();
         gamepadInput = GetComponent<GamepadInput>();
         controller = GetComponent<Controller2D>();
+        renderers = GetComponentsInChildren<SpriteRenderer>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        Texture2D tex = new Texture2D(2, 2);
+      ;
+//      renderers[2].sprite.texture = Resources.Load<Texture2D>("capHead");
         Vector2 directonalInput = new Vector2(gamepadInput.GetLeftHorizontalValue(), 0);
 
+        if (directonalInput.x > 0 && !isfacingRight)
+        {
+            changeDirection();
+            isfacingRight = true;
+        }
+
+        if (directonalInput.x < 0 && isfacingRight)
+        {
+            changeDirection();
+            isfacingRight = false;
+        }
+        
         
 //        if (gamepadInput.IsRegularFirePressed() && !isShooting)
 //        {
 //            animator.SetInteger("State",2);
 //        }
-
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1
-            && animator.GetCurrentAnimatorStateInfo(0).IsName("throw"))
-        {
-            isShooting = true;
-        }
-        else
-        {
-            isShooting = false;
-        }
-
-        if (!isShooting)
-        {
+         
+        
+       
+       
             if (directonalInput.x != 0 && controller.collisions.below)
             {
                 animator.SetInteger("State", 1);
@@ -58,8 +72,15 @@ public class AnimationScript : MonoBehaviour
             {
                 animator.SetInteger("State", 3);
             }
-        }
+        
 
 
+    }
+
+    private void changeDirection()
+    {
+        Vector3 localScale = player.transform.localScale;
+        localScale.x = -localScale.x;
+        player.transform.localScale = localScale;
     }
 }

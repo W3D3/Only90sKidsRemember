@@ -10,16 +10,21 @@ public class LavalampScript : ThrowableScript
     /// </summary>
     public Explosion ExplosionPrefab;
 
+    /// <summary>
+    /// Affects the <see cref="Time"/>'s <see cref="Time.timeScale"/> property.
+    /// </summary>
+    public float TimeScale = 0.4f;
+
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 0.4f;
+        Time.timeScale = TimeScale;
     }
 
     protected override void Awake()
     {
         base.Awake();
-        Time.timeScale = 0.4f;
+        Time.timeScale = TimeScale;
     }
 
     // Update is called once per frame

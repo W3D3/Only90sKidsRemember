@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Input: {fileID: 0}
-  SceneName: BigMap_mp
+  SceneName: HugeMap
   JumpImage: {fileID: 1218561482}
   LogoImage: {fileID: 1782096290}
   Speed: 0.5

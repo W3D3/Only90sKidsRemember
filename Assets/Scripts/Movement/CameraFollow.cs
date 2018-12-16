@@ -1,99 +1,132 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-public class CameraFollow : MonoBehaviour {
+public class CameraFollow : MonoBehaviour
+{
+    public Vector2 focusAreaSize;
+    public Vector2 CameraOffset;
 
-	public Controller2D target;
-	public float verticalOffset;
-	public float lookAheadDstX;
-	public float lookSmoothTimeX;
-	public float verticalSmoothTime;
-	public Vector2 focusAreaSize;
+    public GameManagerScript gameManager;
 
-	FocusArea focusArea;
+    private Vector2 cameraCenter;
+    private Vector2 cameraDelta;
+    private FocusArea focusArea;
 
-	float currentLookAheadX;
-	float targetLookAheadX;
-	float lookAheadDirX;
-	float smoothLookVelocityX;
-	float smoothVelocityY;
+    void Start()
+    {
+    }
 
-	bool lookAheadStopped;
+    /// <summary>
+    /// The center of all Players, saved in fields.
+    /// </summary>
+    /// <returns></returns>
+    private void CalculateCameraCenter()
+    {
+        float maxX = float.MinValue, minX = float.MaxValue;
+        float maxY = float.MinValue, minY = float.MaxValue;
 
-	void Start() {
-		focusArea = new FocusArea (target.collider.bounds, focusAreaSize);
-	}
+        var positions = gameManager.AllPlayers.Select(p => p.gameObject.transform.position);
+        foreach (Vector3 position in positions)
+        {
+            if (maxX < position.x)
+                maxX = position.x;
+            if (minX > position.x)
+                minX = position.x;
+            if (maxY < position.y)
+                maxY = position.y;
+            if (minY > position.y)
+                minY = position.y;
+        }
 
-	void LateUpdate() {
-		focusArea.Update (target.collider.bounds);
+        var deltaX = (maxX - minX);
+        var deltaY = (maxY - minY);
+        cameraDelta = new Vector2(deltaX, deltaY);
+        cameraCenter = new Vector2(minX + deltaX / 2 + CameraOffset.x, minY + deltaY / 2 + CameraOffset.y);
+    }
 
-		Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffset;
+    private Bounds CameraCenterBounds
+    {
+        get { return new Bounds(cameraCenter, Vector3.one); }
+    }
 
-		if (focusArea.velocity.x != 0) {
-			lookAheadDirX = Mathf.Sign (focusArea.velocity.x);
-			if (Mathf.Sign(target.playerInput.x) == Mathf.Sign(focusArea.velocity.x) && target.playerInput.x != 0) {
-				lookAheadStopped = false;
-				targetLookAheadX = lookAheadDirX * lookAheadDstX;
-			}
-			else {
-				if (!lookAheadStopped) {
-					lookAheadStopped = true;
-					targetLookAheadX = currentLookAheadX + (lookAheadDirX * lookAheadDstX - currentLookAheadX)/4f;
-				}
-			}
-		}
+    private void CalculateCameraSize()
+    {
+        // width / height
+        var cam = this.GetComponent<Camera>();
+        float height = (float) (Math.Pow(cam.aspect, -1) * cameraDelta.x);
+        float width = cam.aspect * cameraDelta.y;
+        var normalY = cameraCenter.y - cameraDelta.y / 2;
+
+        cam.orthographicSize = Math.Max(cameraDelta.y/2, normalY);
+    }
+
+    void LateUpdate()
+    {
+        CalculateCameraCenter();
+        focusArea = new FocusArea(CameraCenterBounds, focusAreaSize);
+        focusArea.Update(CameraCenterBounds);
+        CalculateCameraSize();
+
+        GetComponent<Transform>().position = new Vector3(cameraCenter.x, cameraCenter.y+2, -10);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, .5f);
+        Gizmos.DrawCube(focusArea.centre, focusAreaSize);
+    }
+
+    struct FocusArea
+    {
+        public Vector2 centre;
+        public Vector2 velocity;
+        float left, right;
+        float top, bottom;
 
 
-		currentLookAheadX = Mathf.SmoothDamp (currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
+        public FocusArea(Bounds targetBounds, Vector2 size)
+        {
+            left = targetBounds.center.x - size.x / 2;
+            right = targetBounds.center.x + size.x / 2;
+            bottom = targetBounds.min.y;
+            top = targetBounds.min.y + size.y;
 
-		focusPosition.y = Mathf.SmoothDamp (transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
-		focusPosition += Vector2.right * currentLookAheadX;
-		transform.position = (Vector3)focusPosition + Vector3.forward * -10;
-	}
+            velocity = Vector2.zero;
+            centre = new Vector2((left + right) / 2, (top + bottom) / 2);
+        }
 
-	void OnDrawGizmos() {
-		Gizmos.color = new Color (1, 0, 0, .5f);
-		Gizmos.DrawCube (focusArea.centre, focusAreaSize);
-	}
+        public void Update(Bounds targetBounds)
+        {
+            float shiftX = 0;
+            if (targetBounds.min.x < left)
+            {
+                shiftX = targetBounds.min.x - left;
+            }
+            else if (targetBounds.max.x > right)
+            {
+                shiftX = targetBounds.max.x - right;
+            }
 
-	struct FocusArea {
-		public Vector2 centre;
-		public Vector2 velocity;
-		float left,right;
-		float top,bottom;
+            left += shiftX;
+            right += shiftX;
 
+            float shiftY = 0;
+            if (targetBounds.min.y < bottom)
+            {
+                shiftY = targetBounds.min.y - bottom;
+            }
+            else if (targetBounds.max.y > top)
+            {
+                shiftY = targetBounds.max.y - top;
+            }
 
-		public FocusArea(Bounds targetBounds, Vector2 size) {
-			left = targetBounds.center.x - size.x/2;
-			right = targetBounds.center.x + size.x/2;
-			bottom = targetBounds.min.y;
-			top = targetBounds.min.y + size.y;
-
-			velocity = Vector2.zero;
-			centre = new Vector2((left+right)/2,(top +bottom)/2);
-		}
-
-		public void Update(Bounds targetBounds) {
-			float shiftX = 0;
-			if (targetBounds.min.x < left) {
-				shiftX = targetBounds.min.x - left;
-			} else if (targetBounds.max.x > right) {
-				shiftX = targetBounds.max.x - right;
-			}
-			left += shiftX;
-			right += shiftX;
-
-			float shiftY = 0;
-			if (targetBounds.min.y < bottom) {
-				shiftY = targetBounds.min.y - bottom;
-			} else if (targetBounds.max.y > top) {
-				shiftY = targetBounds.max.y - top;
-			}
-			top += shiftY;
-			bottom += shiftY;
-			centre = new Vector2((left+right)/2,(top +bottom)/2);
-			velocity = new Vector2 (shiftX, shiftY);
-		}
-	}
-
+            top += shiftY;
+            bottom += shiftY;
+            centre = new Vector2((left + right) / 2, (top + bottom) / 2);
+            velocity = new Vector2(shiftX, shiftY);
+        }
+    }
 }

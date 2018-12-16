@@ -21,6 +21,12 @@ public class PlayerUIScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Player == null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         PlayerName.text = Player.Name;
         Throw = Player.GetComponent<ThrowScript>();
 

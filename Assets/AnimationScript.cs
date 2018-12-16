@@ -13,6 +13,7 @@ public class AnimationScript : MonoBehaviour
     private Boolean isShooting;
 
     private bool isfacingRight = false;
+    private bool isDead = false;
 
     private SpriteRenderer[] renderers;
 
@@ -63,14 +64,20 @@ public class AnimationScript : MonoBehaviour
             animator.SetInteger("State", 3);
         }
 
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("death")
+        if(!isDead && animator.GetCurrentAnimatorStateInfo(0).IsName("death")
             && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             foreach (var t in renderers)
             {
                 t.enabled = false;
             }
+            if (isfacingRight)
+            {
+                isfacingRight = false;
+                changeDirection();
+            }
             renderers[renderers.Length-2].enabled = true;
+            isDead = true;
         }
 
 

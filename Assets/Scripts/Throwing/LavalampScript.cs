@@ -25,6 +25,7 @@ public class LavalampScript : ThrowableScript
     {
         base.Awake();
         Time.timeScale = TimeScale;
+        RigidBody.AddTorque(40f);
     }
 
     // Update is called once per frame

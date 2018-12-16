@@ -11,8 +11,22 @@ public class CameraFollow : MonoBehaviour
 
     public GameManagerScript gameManager;
 
+    /// <summary>
+    /// The middle between all players.
+    /// The center of the desired visible area.
+    /// </summary>
     private Vector2 cameraCenter;
+
+    /// <summary>
+    /// The diagonal between the desired visible area.
+    /// </summary>
     private Vector2 cameraDelta;
+
+    /// <summary>
+    /// The minimal needed camera size to catch all players.
+    /// </summary>
+    private float minimalCameraSize;
+
     private FocusArea focusArea;
 
     void Start()
@@ -20,10 +34,10 @@ public class CameraFollow : MonoBehaviour
     }
 
     /// <summary>
-    /// The center of all Players, saved in fields.
+    /// The center and diagonal of all Players, saved in fields for performance.
     /// </summary>
     /// <returns></returns>
-    private void CalculateCameraCenter()
+    private void InitCameraPosition()
     {
         float maxX = float.MinValue, minX = float.MaxValue;
         float maxY = float.MinValue, minY = float.MaxValue;
@@ -43,6 +57,7 @@ public class CameraFollow : MonoBehaviour
 
         var deltaX = (maxX - minX);
         var deltaY = (maxY - minY);
+
         cameraDelta = new Vector2(deltaX, deltaY);
         cameraCenter = new Vector2(minX + deltaX / 2 + CameraOffset.x, minY + deltaY / 2 + CameraOffset.y);
     }
@@ -52,25 +67,30 @@ public class CameraFollow : MonoBehaviour
         get { return new Bounds(cameraCenter, Vector3.one); }
     }
 
-    private void CalculateCameraSize()
+    /// <summary>
+    /// Calculates the minimal needed camera size to show all players.
+    /// </summary>
+    private void InitCameraSize()                                                                                                                                                                                  
     {
-        // width / height
-        var cam = this.GetComponent<Camera>();
-        float height = (float) (Math.Pow(cam.aspect, -1) * cameraDelta.x);
-        float width = cam.aspect * cameraDelta.y;
-        var normalY = cameraCenter.y - cameraDelta.y / 2;
+        // aspect ration = width / height
+        var camera = this.GetComponent<Camera>();
 
-        cam.orthographicSize = Math.Max(cameraDelta.y/2, normalY);
+        float neededX = cameraDelta.x / 2;
+        float neededYFromX = ((float)Math.Pow(camera.aspect, -1)) * neededX; // height / width * width
+        float neededY = cameraDelta.y / 2;
+
+         minimalCameraSize  = Math.Max(neededY, neededYFromX);
     }
 
     void LateUpdate()
     {
-        CalculateCameraCenter();
+        InitCameraPosition();
+        InitCameraSize();
         focusArea = new FocusArea(CameraCenterBounds, focusAreaSize);
         focusArea.Update(CameraCenterBounds);
-        CalculateCameraSize();
 
-        GetComponent<Transform>().position = new Vector3(cameraCenter.x, cameraCenter.y+2, -10);
+        GetComponent<Camera>().orthographicSize = minimalCameraSize+1;
+        GetComponent<Transform>().position = new Vector3(cameraCenter.x, cameraCenter.y, -10);
     }
 
     void OnDrawGizmos()

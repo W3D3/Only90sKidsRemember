@@ -12,7 +12,7 @@ public class GameManagerScript : MonoBehaviour
     public string Scene;
     public GameObject GameOverScreen;
     public GameObject PreStartScreen;
-    public Text PlayerWonText;
+    public GameObject PlayerUI;
     public GamepadInput input;
     public bool GameOver;
 
@@ -24,13 +24,17 @@ public class GameManagerScript : MonoBehaviour
     public GameObject Fight;
 
     public GameObject CurrentImage;
+    public GameObject JumpImage;
+    public bool ZoomIn;
+    public bool ZoomOut;
+    public bool RotateLeft;
+    public bool RotateRight;
 
+    public float Speed = 0.5f;
+    public float RotationSpeed;
     public Vector3 growScale;
 
-    public GameObject Winner1;
-    public GameObject Winner2;
-    public GameObject Winner3;
-    public GameObject Winner4;
+    public Text WinnerName;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +55,11 @@ public class GameManagerScript : MonoBehaviour
 
         GameOverScreen.SetActive(false);
         PreStartScreen.SetActive(true);
+        PlayerUI.SetActive(true);
+        
+
+        ZoomIn = true;
+        RotateLeft = true;
     }
 
     // Update is called once per frame
@@ -63,28 +72,10 @@ public class GameManagerScript : MonoBehaviour
 
             // only 1 player alive
             GameOverScreen.SetActive(true);
+            PlayerUI.SetActive(false);
             var winner = AllPlayers.First(x => x.health > 0);
 
-            Winner1.SetActive(false);
-            Winner2.SetActive(false);
-            Winner3.SetActive(false);
-            Winner4.SetActive(false);
-
-            switch (winner.Name)
-            {
-                case "Player1":
-                    Winner1.SetActive(true);
-                    break;
-                case "Player2":
-                    Winner2.SetActive(true);
-                    break;
-                case "Player3":
-                    Winner3.SetActive(true);
-                    break;
-                case "Player4":
-                    Winner4.SetActive(true);
-                    break;
-            }
+            WinnerName.text = winner.Name;
         }
 
         if (AllPlayers.Any(x => x.GetComponent<GamepadInput>().IsJumpPressed()) && GameOver)
@@ -96,6 +87,54 @@ public class GameManagerScript : MonoBehaviour
         {
             growScale += new Vector3(1, 1, 1) * 0.01f;
             CurrentImage.transform.localScale = Vector3.Lerp(transform.localScale, growScale, 1f);
+        }
+
+        if (GameOver)
+        {
+            if (ZoomIn)
+            {
+                JumpImage.transform.localScale = Vector3.MoveTowards(JumpImage.transform.localScale, new Vector3(0.9f, 0.9f, 0.9f), Time.deltaTime * Speed);
+            }
+
+            if (ZoomOut)
+            {
+                JumpImage.transform.localScale = Vector3.MoveTowards(JumpImage.transform.localScale, new Vector3(1f, 1f, 1f), Time.deltaTime * Speed);
+            }
+
+            if (JumpImage.transform.localScale.x <= 0.98f && JumpImage.transform.localScale.y <= 0.9f)
+            {
+                ZoomOut = true;
+                ZoomIn = false;
+            }
+
+            if (JumpImage.transform.localScale.x >= 1f && JumpImage.transform.localScale.y >= 1f)
+            {
+                ZoomOut = false;
+                ZoomIn = true;
+            }
+
+            if (RotateLeft)
+            {
+                WinnerName.transform.rotation = Quaternion.RotateTowards(WinnerName.transform.rotation, Quaternion.Euler(0f, 0f, -7f), Time.deltaTime * RotationSpeed);
+            }
+
+            if (RotateRight)
+            {
+                WinnerName.transform.rotation = Quaternion.RotateTowards(WinnerName.transform.rotation, Quaternion.Euler(0f, 0f, 7f), Time.deltaTime * RotationSpeed);
+            }
+
+            // todo: why this number?
+            if (WinnerName.transform.rotation.z <= -0.061f)
+            {
+                RotateRight = true;
+                RotateLeft = false;
+            }
+
+            if (WinnerName.transform.rotation.z >= 0.061f)
+            {
+                RotateRight = false;
+                RotateLeft = true;
+            }
         }
     }
 

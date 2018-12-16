@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5611036186024994418
 Transform:
   m_ObjectHideFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   Scene: Ante
   GameOverScreen: {fileID: 0}
   PreStartScreen: {fileID: 0}
-  PlayerWonText: {fileID: 0}
+  PlayerUI: {fileID: 0}
   input: {fileID: 0}
   GameOver: 0
   GameNotStarted: 1
@@ -57,4 +57,12 @@ MonoBehaviour:
   Image3: {fileID: 0}
   Fight: {fileID: 0}
   CurrentImage: {fileID: 0}
+  JumpImage: {fileID: 0}
+  ZoomIn: 0
+  ZoomOut: 1
+  RotateLeft: 0
+  RotateRight: 0
+  Speed: 0.5
+  RotationSpeed: 20
   growScale: {x: 0, y: 0, z: 0}
+  WinnerName: {fileID: 0}

@@ -46,7 +46,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 40a3e1e50d76e0045a0ca1f955f1bd3b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.02
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -271,6 +271,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: af9eb41d08fda1943a20f406c3137215, type: 3}
   - {fileID: 8300000, guid: 0f094806da749fd4e8b921db5119937e, type: 3}
   - {fileID: 8300000, guid: 61a5abb1246853e4181c6212132fbb8d, type: 3}
+  - {fileID: 8300000, guid: 3b183612e2846374a8fe974d02258549, type: 3}
+  - {fileID: 8300000, guid: 4221aa4ad3906284ab4d37c86ab63bf0, type: 3}
+  - {fileID: 8300000, guid: 090ac7830ab908847ab2a29d2a120ff5, type: 3}
+  - {fileID: 8300000, guid: 423f602c3bffefa4ea56654b12dbfa58, type: 3}
+  - {fileID: 8300000, guid: 4903cb88fafa6ea448688f15057d42de, type: 3}
+  - {fileID: 8300000, guid: 5f29601029768d8408e7a3417934115e, type: 3}
+  - {fileID: 8300000, guid: a35cfccadd5f2b44a9449f63fa0acd50, type: 3}
   furbie: {fileID: 8300000, guid: f43dfa9aafe6fce42bdf9d00f3d3f245, type: 3}
   lavaLamp: {fileID: 8300000, guid: ff7113e2ae3af2a40a9a4895a38999f3, type: 3}
   throwIt: {fileID: 8300000, guid: 95cb89d96efc237459541bb7d26e9c91, type: 3}

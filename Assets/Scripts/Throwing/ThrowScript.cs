@@ -159,9 +159,7 @@ public class ThrowScript : MonoBehaviour
             throwable.SetSpeed(ShootingDirection, SpeedSpecialWeapon);
             animator.Play("throw");
             SoundManager.instance.playThrowIt();
-                var cmps = Player.GetComponentsInChildren<SpriteRenderer>();
-                cmps[cmps.Length - 2].sprite = null;
-            
+                
             SpecialWeapon = null;
         }
     }

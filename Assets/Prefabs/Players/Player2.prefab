@@ -441,7 +441,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300002, guid: a7b15126115194c08a2523a6428f5dc3, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.7169812, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -862,7 +862,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5e2a4c6424ad4ef4a8387af6efd37688, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 891cb1aa184edfb46bde08136348637e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1214,7 +1214,7 @@ GameObject:
   - component: {fileID: 8218040916166643498}
   - component: {fileID: 2505865495186856532}
   m_Layer: 8
-  m_Name: PlayerAnimate
+  m_Name: Player2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,7 +1320,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   LookingRight: 0
   JojoDragSpeed: 80
-  Name: 
+  Name: Player 2
   health: 2
 --- !u!114 &1349914108331027162
 MonoBehaviour:
@@ -1347,7 +1347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnablePlayerControls: 1
-  ControllerNumber: 1
+  ControllerNumber: 2
   ShootingButtonThreshold: 0.8
 --- !u!114 &5517121009129025057
 MonoBehaviour:

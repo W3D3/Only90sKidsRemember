@@ -13,6 +13,13 @@ public class LavalampScript : ThrowableScript
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 0.4f;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Time.timeScale = 0.4f;
     }
 
     // Update is called once per frame
@@ -34,6 +41,7 @@ public class LavalampScript : ThrowableScript
         var explosion = Instantiate(ExplosionPrefab);
         explosion.transform.position = transform.position;
         SoundManager.instance.playLavaLamp();
+        Time.timeScale = 1f;
         Destroy(gameObject);
     }
 }

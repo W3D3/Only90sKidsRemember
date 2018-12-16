@@ -21,13 +21,16 @@ public class JoJoScript : ThrowableScript
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall"
+            || (collision.gameObject.tag == "Player" 
+                && collision.gameObject.GetComponent<Player>() != Thrower))
         {
             RigidBody.velocity = Vector2.zero;
             Thrower.StartSpidermanMove(gameObject);
             
             Invoke("DestroyJojo", 0.4f);
         }
+
     }
 
     public void DestroyJojo()

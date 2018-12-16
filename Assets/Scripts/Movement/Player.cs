@@ -112,7 +112,6 @@ public class Player : MonoBehaviour {
 		if(health <= 0 && !death)
 		{
 			animator.Play("death");
-			SoundManager.instance.playDeathQuote();
 			GetComponent<GamepadInput>().EnablePlayerControls = false;
             death = true;
 

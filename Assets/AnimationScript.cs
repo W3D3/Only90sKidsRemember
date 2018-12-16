@@ -70,7 +70,7 @@ public class AnimationScript : MonoBehaviour
             {
                 t.enabled = false;
             }
-            renderers.Last().enabled = true;
+            renderers[renderers.Length-2].enabled = true;
         }
 
 

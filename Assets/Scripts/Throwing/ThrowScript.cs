@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -48,8 +49,19 @@ public class ThrowScript : MonoBehaviour
             SpeedPrimaryWeapon = 10f;
         }
 
+
         if (PrimaryWeaponCharging)
         {
+            CrossHair.enabled = true;
+            CrossHair.startWidth = 0.1f;
+            CrossHair.endWidth = 0.6f;
+            // HACK this is only needed because assets are fucking flipped
+            Vector3 shootingDirectionAbsolute =
+                new Vector3(Math.Abs(ShootingDirection.x)*-1, ShootingDirection.y, 0);
+            Vector3 ch = (shootingDirectionAbsolute * (SpeedPrimaryWeapon / PrimaryWeapon.MaxSpeed) * 0.6f * 10); // vector for crosshair
+            ch.z = 1;
+            CrossHair.SetPositions(new Vector3[] { Vector3.zero, ch });
+
             var maxSpeed = PrimaryWeapon.MaxSpeed;
             if (SpeedPrimaryWeapon != maxSpeed)
             {
@@ -61,7 +73,13 @@ public class ThrowScript : MonoBehaviour
 
                 if (SpeedPrimaryWeapon > maxSpeed)
                     SpeedPrimaryWeapon = maxSpeed;
+                
+                
             }
+        }
+        else
+        {
+            CrossHair.enabled = false;
         }
 
         if (input.IsRegularFireReleased() && PrimaryWeaponCharging)
@@ -75,6 +93,7 @@ public class ThrowScript : MonoBehaviour
             throwable.Thrower = Player;
             throwable.SetSpeed(ShootingDirection, SpeedPrimaryWeapon);
             animator.Play("throw");
+            CrossHair.SetPositions(new Vector3[] { Vector3.zero });
 
             --PrimaryAmmo;
         }
@@ -91,7 +110,7 @@ public class ThrowScript : MonoBehaviour
                    ? input.GetRightHorizontalValue()
                    : Player.LookingRight ? 1 : -1;
 
-            return new Vector2(horizontalVal, input.GetRightVerticalValue());
+            return new Vector3(horizontalVal, input.GetRightVerticalValue());
         }
     }
 
@@ -151,5 +170,10 @@ public class ThrowScript : MonoBehaviour
         HandleShootPrimaryWeapon();
 
         HandleShootSpecialWeapon();
+    }
+    
+    private LineRenderer CrossHair
+    {
+        get { return GetComponent<LineRenderer>(); }
     }
 }

@@ -93,6 +93,7 @@ public class ThrowScript : MonoBehaviour
             throwable.Thrower = Player;
             throwable.SetSpeed(ShootingDirection, SpeedPrimaryWeapon);
             animator.Play("throw");
+            SoundManager.instance.playThrowIt();
             CrossHair.SetPositions(new Vector3[] { Vector3.zero });
 
             --PrimaryAmmo;
@@ -157,6 +158,7 @@ public class ThrowScript : MonoBehaviour
             throwable.Thrower = Player;
             throwable.SetSpeed(ShootingDirection, SpeedSpecialWeapon);
             animator.Play("throw");
+            SoundManager.instance.playThrowIt();
                 
             SpecialWeapon = null;
         }

@@ -56,7 +56,7 @@ public class FurbyScript : ThrowableScript
     {
         var explosion = Instantiate(ExplosionPrefab);
         explosion.transform.position = transform.position;
-
+        SoundManager.instance.playFurbie();
         Destroy(gameObject);
     }
 }

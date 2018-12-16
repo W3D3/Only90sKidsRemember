@@ -33,7 +33,7 @@ public class LavalampScript : ThrowableScript
     {
         var explosion = Instantiate(ExplosionPrefab);
         explosion.transform.position = transform.position;
-
+        SoundManager.instance.playLavaLamp();
         Destroy(gameObject);
     }
 }

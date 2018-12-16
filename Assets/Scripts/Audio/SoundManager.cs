@@ -9,8 +9,13 @@ public class SoundManager : MonoBehaviour
    
     public AudioSource musicSource;
     public AudioSource efxSource;
+    public AudioSource sfxSource;
     public AudioClip[] expQuotes;
     public AudioClip[] generalQuotes;
+    public AudioClip[] deathQuotes;
+    public AudioClip furbie;
+    public AudioClip lavaLamp;
+    public AudioClip throwIt;
  
     public static SoundManager instance = null;
    
@@ -40,7 +45,30 @@ public class SoundManager : MonoBehaviour
 
     public void playExpQuote()
     {
-        playSingleQuote(generalQuotes[Random.Range(0,expQuotes.Length)]);
+        playSingleQuote(expQuotes[Random.Range(0,expQuotes.Length)]);
     }
-	
+
+    public void playDeathQuote()
+    {
+        playSingleQuote(deathQuotes[Random.Range(0,deathQuotes.Length)]);
+    }
+
+    public void playFurbie()
+    {
+        sfxSource.clip = furbie;
+        sfxSource.Play();
+    }
+
+    public void playLavaLamp()
+    {
+        sfxSource.clip = lavaLamp;
+        sfxSource.Play();
+    }
+
+
+    public void playThrowIt()
+    {
+        sfxSource.clip = throwIt;
+        sfxSource.Play();
+    }
 }

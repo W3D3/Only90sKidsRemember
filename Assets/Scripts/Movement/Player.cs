@@ -88,10 +88,12 @@ public class Player : MonoBehaviour {
 		switch (type)
 		{
 			case DamageType.Generic:
+				SoundManager.instance.playGeneralQuote();
 				health--;
 				break;
 			case DamageType.Explosion:
 				//TODO play animation
+				SoundManager.instance.playExpQuote();
 				health--;
 				break;
 			case DamageType.Fire:
@@ -111,6 +113,7 @@ public class Player : MonoBehaviour {
 		if(health <= 0 && !death)
 		{
 			animator.Play("death");
+			SoundManager.instance.playDeathQuote();
 			GetComponent<GamepadInput>().EnablePlayerControls = false;
             death = true;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 [RequireComponent (typeof (Controller2D))]
 public class Player : MonoBehaviour {
@@ -113,6 +114,8 @@ public class Player : MonoBehaviour {
 			GetComponent<GamepadInput>().EnablePlayerControls = false;
             death = true;
 
+            // remove player indicator
+            GetComponentsInChildren<SpriteRenderer>().Last().sprite = null;
 		    
 		    GetComponent<BoxCollider2D>().enabled = false;
 		    GetComponent<Player>().enabled = false;

@@ -24,7 +24,7 @@ public class LegoScript : ThrowableScript
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        isActive = RigidBody.velocity.magnitude > 0.2;
+        isActive = RigidBody.velocity.magnitude > 0.08;
         if (isActive)
         {
             if (collision.gameObject.tag == "Player")
@@ -36,17 +36,12 @@ public class LegoScript : ThrowableScript
                     hitPlayer.Damage(DamageType.Generic);
                 }
             }
-            //else if (collision.gameObject.tag == "Wall" && )
-                //isActive = false;
         }
-        else
+        else if (collision.gameObject.tag == "Player")
         {
-            if (collision.gameObject.tag == "Player")
-            {
-                var hitPlayer = collision.gameObject.GetComponent<Player>();
-                hitPlayer.AddAmmo(1);
-                Destroy(gameObject);
-            }
+            var hitPlayer = collision.gameObject.GetComponent<Player>();
+            hitPlayer.AddAmmo(1);
+            Destroy(gameObject);
         }
     }
 }

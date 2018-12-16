@@ -33,7 +33,7 @@ public class ThrowableScript : MonoBehaviour
     public Sprite Thumbnail;
 
     // Awake is called after instantiation.
-    private void Awake()
+    protected virtual void Awake()
     {
         RigidBody = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();

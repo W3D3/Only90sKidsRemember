@@ -76,6 +76,11 @@ public class GameManagerScript : MonoBehaviour
             var winner = AllPlayers.First(x => x.health > 0);
 
             WinnerName.text = winner.Name;
+
+            foreach (var allPlayer in AllPlayers)
+            {
+                allPlayer.GetComponent<GamepadInput>().EnablePlayerControls = true;
+            }
         }
 
         if (AllPlayers.Any(x => x.GetComponent<GamepadInput>().IsJumpPressed()) && GameOver)

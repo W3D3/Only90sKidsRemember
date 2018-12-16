@@ -47,31 +47,32 @@ public class AnimationScript : MonoBehaviour
             changeDirection();
             isfacingRight = false;
         }
-        
-        
-//        if (gamepadInput.IsRegularFirePressed() && !isShooting)
-//        {
-//            animator.SetInteger("State",2);
-//        }
-         
-        
        
-       
-            if (directonalInput.x != 0 && controller.collisions.below)
-            {
-                animator.SetInteger("State", 1);
-            }
+        if (directonalInput.x != 0 && controller.collisions.below)
+        {
+            animator.SetInteger("State", 1);
+        }
 
-            if (directonalInput.x == 0 && controller.collisions.below)
-            {
-                animator.SetInteger("State", 0);
-            }
+        if (directonalInput.x == 0 && controller.collisions.below)
+        {
+            animator.SetInteger("State", 0);
+        }
 
-            if (!controller.collisions.below)
+        if (!controller.collisions.below)
+        {
+            animator.SetInteger("State", 3);
+        }
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("death")
+            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        {
+            foreach (var t in renderers)
             {
-                animator.SetInteger("State", 3);
+                t.enabled = false;
             }
-        
+            renderers.Last().enabled = true;
+        }
+
 
 
     }

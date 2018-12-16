@@ -12,7 +12,7 @@ public class GameManagerScript : MonoBehaviour
     public string Scene;
     public GameObject GameOverScreen;
     public GameObject PreStartScreen;
-    public Text PlayerWonText;
+    public GameObject PlayerUI;
     public GamepadInput input;
     public bool GameOver;
 
@@ -55,6 +55,8 @@ public class GameManagerScript : MonoBehaviour
 
         GameOverScreen.SetActive(false);
         PreStartScreen.SetActive(true);
+        PlayerUI.SetActive(true);
+        
 
         ZoomIn = true;
         RotateLeft = true;
@@ -70,6 +72,7 @@ public class GameManagerScript : MonoBehaviour
 
             // only 1 player alive
             GameOverScreen.SetActive(true);
+            PlayerUI.SetActive(false);
             var winner = AllPlayers.First(x => x.health > 0);
 
             WinnerName.text = winner.Name;

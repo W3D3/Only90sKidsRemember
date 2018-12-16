@@ -111,8 +111,6 @@ public class Player : MonoBehaviour {
 		{
 			animator.Play("death");
 			GetComponent<GamepadInput>().EnablePlayerControls = false;
-            components[components.Length - 1].sprite = null;
-		    components[components.Length - 2].sprite = null;
             death = true;
 
 		    

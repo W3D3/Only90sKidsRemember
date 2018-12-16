@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 33095a20536c19548b337cbfd2f9063b
+  - enabled: 1
+    path: Assets/Scenes/BigMap_mp.unity
+    guid: c0fae0b0ec307114ab290bc343b90a96
   m_configObjects: {}
